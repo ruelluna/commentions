@@ -2,11 +2,20 @@
 
 namespace Kirschbaum\FilamentComments;
 
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
+use Kirschbaum\FilamentComments\Livewire\Comments;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class FilamentCommentsServiceProvider extends PackageServiceProvider
 {
+    public function boot()
+    {
+        parent::boot();
+
+        Livewire::component('comments', Comments::class);
+    }
+
     public function configurePackage(Package $package): void
     {
         /*
@@ -17,7 +26,7 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
         $package
             ->name('filament-comments')
             ->hasConfigFile()
-            // ->hasViews()
+            ->hasViews()
             ->hasMigration('create_filament_comment_tables')
         ;
     }
