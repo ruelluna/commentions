@@ -18,7 +18,7 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
             ->name('filament-comments')
             ->hasConfigFile()
             // ->hasViews()
-            // ->hasMigration('create_comments_table')
+            ->hasMigration('create_filament_comment_tables')
         ;
     }
 }
