@@ -1,0 +1,28 @@
+{
+    "name": "kirschbaum-development/filament-comments",
+    "description": "A package to allow you to create comments, tag users and more",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Kirschbaum\\FilamentComments\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Luís Dalmolin",
+            "email": "luis.nh@gmail.com"
+        }
+    ],
+    "require": {
+        "spatie/laravel-package-tools": "^1.18"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kirschbaum\\FilamentComments\\FilamentCommentsServiceProvider"
+            ]
+        }
+    }
+}
