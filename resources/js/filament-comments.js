@@ -1,9 +1,11 @@
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import Mention from '@tiptap/extension-mention'
 import Placeholder from '@tiptap/extension-placeholder'
+import suggestion from './suggestion'
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('editor', (content) => {
+    Alpine.data('editor', (content, mentions = []) => {
         let editor
 
         return {
@@ -16,6 +18,12 @@ document.addEventListener('alpine:init', () => {
                     element: this.$refs.element,
                     extensions: [
                         StarterKit,
+                        Mention.configure({
+                            HTMLAttributes: {
+                                class: 'mention',
+                            },
+                            suggestion: suggestion(mentions),
+                        }),
                         Placeholder.configure({
                             placeholder: 'Type your comment…',
                         }),

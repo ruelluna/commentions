@@ -11,11 +11,13 @@
     @endforeach
 
     <form wire:submit.prevent="save" class="mt-6">
-        <p class="text-red-500 mb-2">{{ $commentBody }}</p>
+        {{-- <p class="text-red-500 mb-2">{{ $commentBody }}</p> --}}
 
         {{-- tiptap editor --}}
-        <div x-data="editor(@js($commentBody))" wire:ignore>
-            <div x-ref="element"></div>
+        <div class="relative tip-tap-container" id="tip-tap-container">
+            <div x-data="editor(@js($commentBody), @js($this->mentions))" wire:ignore>
+                <div x-ref="element"></div>
+            </div>
         </div>
 
         <button type="submit" class="mt-3 px-5 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">Submit</button>

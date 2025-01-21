@@ -2,6 +2,7 @@
 
 namespace Kirschbaum\FilamentComments\Livewire;
 
+use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
@@ -11,7 +12,7 @@ class Comments extends Component
 {
     public Model $record;
 
-    public string $commentBody = '';
+    public string $commentBody = '<p><span data-type="mention" data-id="Jennifer Grey"></span> Would you mind to share what you’ve been working on lately? We fear not much happened since Dirty Dancing.</p>';
 
     #[On('editorContentUpdated')]
     public function updateComment($value)
@@ -46,4 +47,11 @@ class Comments extends Component
     {
         return $this->record->comments()->latest()->get();
     }
+
+    #[Computed]
+    public function mentions()
+    {
+        return User::all()->toArray();
+    }
+
 }
