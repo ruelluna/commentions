@@ -3,6 +3,7 @@
 namespace Kirschbaum\FilamentComments\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,14 @@ class Comments extends Component
 {
     public Model $record;
 
-    public $commentBody;
+    public string $commentBody = '';
+
+    #[On('editorContentUpdated')]
+    public function updateComment($value)
+    {
+        dump('damn!!!', $value);
+        $this->commentBody = $value;
+    }
 
     protected $rules = [
         'commentBody' => 'required|string',

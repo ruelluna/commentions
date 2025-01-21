@@ -2,8 +2,11 @@
 
 namespace Kirschbaum\FilamentComments;
 
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
+use Filament\Support\Facades\FilamentAsset;
 use Kirschbaum\FilamentComments\Livewire\Comments;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -29,5 +32,28 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigration('create_filament_comment_tables')
         ;
+    }
+
+    public function packageBooted(): void
+    {
+        // Asset Registration
+        FilamentAsset::register(
+            [
+                Js::make('filament-comments-scripts', __DIR__ . '/../resources/dist/filament-comments.js'),
+            ],
+            'filament-comments'
+        );
+
+        FilamentAsset::register(
+            [
+                Css::make('filament-comments', __DIR__ . '/../resources/dist/filament-comments.css'),
+            ],
+            'filament-comments'
+        );
+
+        // FilamentAsset::registerScriptData(
+        //     $this->getScriptData(),
+        //     $this->getAssetPackageName()
+        // );
     }
 }

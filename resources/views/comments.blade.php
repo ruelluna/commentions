@@ -11,7 +11,14 @@
     @endforeach
 
     <form wire:submit.prevent="save" class="mt-6">
-        <textarea wire:model="commentBody" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Write your comment..." required></textarea>
+        <p class="text-red-500 mb-2">{{ $commentBody }}</p>
+
+        {{-- tiptap editor --}}
+        <div x-data="editor(@js($commentBody))" wire:ignore>
+            <div x-ref="element"></div>
+        </div>
+
         <button type="submit" class="mt-3 px-5 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">Submit</button>
     </form>
 </div>
+
