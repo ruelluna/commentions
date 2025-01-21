@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\FilamentComments\Actions\SaveComment;
 
 class Comments extends Component
 {
@@ -29,9 +30,7 @@ class Comments extends Component
     {
         $this->validate();
 
-        $this->record->comments()->create([
-            'body' => $this->commentBody,
-        ]);
+        SaveComment::run($this->record, $this->commentBody);
 
         $this->commentBody = ''; // Clear the textarea after submission
         unset($this->comments);

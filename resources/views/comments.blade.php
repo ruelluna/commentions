@@ -4,7 +4,7 @@
             <img src="https://placehold.co/40x40/EEE/31343C" alt="User Avatar" class="w-10 h-10 rounded-full">
             <div>
                 <div class="font-semibold text-gray-800">{{ $comment->commentable->name }}</div>
-                <div class="text-gray-600">{{ $comment->body }}</div>
+                <div class="text-gray-600">{!! $comment->body !!}</div>
                 <div class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</div>
             </div>
         </div>
