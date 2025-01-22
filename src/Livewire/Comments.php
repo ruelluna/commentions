@@ -8,17 +8,17 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\FilamentComments\Actions\SaveComment;
+use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
 
 class Comments extends Component
 {
     public Model $record;
 
-    public string $commentBody = '<p><span data-type="mention" data-id="Jennifer Grey"></span> Would you mind to share what you’ve been working on lately? We fear not much happened since Dirty Dancing.</p>';
+    public string $commentBody = '';
 
     #[On('editorContentUpdated')]
     public function updateComment($value)
     {
-        dump('damn!!!', $value);
         $this->commentBody = $value;
     }
 
@@ -30,9 +30,12 @@ class Comments extends Component
     {
         $this->validate();
 
-        SaveComment::run($this->record, $this->commentBody);
+        /** @var CommentAuthor */
+        $author = auth()->user();
 
-        $this->commentBody = ''; // Clear the textarea after submission
+        SaveComment::run($this->record, $author, $this->commentBody);
+
+        $this->clear();
         unset($this->comments);
     }
 
@@ -41,10 +44,15 @@ class Comments extends Component
         return view('filament-comments::comments');
     }
 
+    public function clear()
+    {
+        $this->commentBody = '';
+    }
+
     #[Computed]
     public function comments()
     {
-        return $this->record->comments()->latest()->get();
+        return $this->record->comments()->latest()->with('author')->get();
     }
 
     #[Computed]

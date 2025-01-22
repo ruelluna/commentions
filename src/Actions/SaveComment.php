@@ -4,19 +4,22 @@ namespace Kirschbaum\FilamentComments\Actions;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
 use Kirschbaum\FilamentComments\Events\UserWasMentionedEvent;
 
 class SaveComment
 {
-    public static function run(Model $commentable, string $body)
+    public static function run(...$args)
     {
-        return (new static)($commentable, $body);
+        return (new static)(...$args);
     }
 
-    public function __invoke(Model $commentable, string $body)
+    public function __invoke(Model $commentable, CommentAuthor $author, string $body)
     {
         $comment = $commentable->comments()->create([
             'body' => $body,
+            'author_id' => $author->id,
+            'author_type' => get_class($author), // TODO: Use morph-type here
         ]);
 
         $this->dispatchMentionEvents($comment, $body);

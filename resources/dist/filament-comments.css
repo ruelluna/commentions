@@ -6,15 +6,15 @@
     pointer-events: none;
 }
 
-.mention {
+.tiptap .mention {
     background-color: #e5e7eb;
     border-radius: 4px;
     padding: 2px 4px;
     font-weight: bold;
     color: #3b82f6;
 }
+
 .mention-suggestion {
-    /* position: absolute; */
     background: white;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -22,9 +22,8 @@
     max-height: 150px;
     overflow-y: auto;
     z-index: 1000;
-    /* top: 50%;
-    left: 50%; */
 }
+
 .mention-item {
     padding: 5px 10px;
     cursor: pointer;
