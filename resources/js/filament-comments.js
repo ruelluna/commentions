@@ -50,7 +50,12 @@ document.addEventListener('alpine:init', () => {
                     onSelectionUpdate({ editor }) {
                         _this.updatedAt = Date.now()
                     },
-                })
+                });
+
+                // Watch for changes in the content property from Livewire
+                Livewire.on('editorContentCleared', (newValue) => {
+                    editor.commands.setContent('');
+                });
             },
             isLoaded() {
                 return editor

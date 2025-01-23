@@ -4,5 +4,10 @@ namespace Kirschbaum\FilamentComments\Contracts;
 
 interface CommentAuthor
 {
-    // ?public function getAuthorName(): string;
+    /**
+     * Get the identifier key for the object. Usually the primary key.
+     *
+     * @return int|string|null
+     */
+    public function getKey();
 }

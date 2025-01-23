@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kirschbaum\FilamentComments\Actions\ParseComment;
+use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
 
 class Comment extends Model
 {
@@ -30,5 +31,10 @@ class Comment extends Model
         return Attribute::make(
             get: fn () => ParseComment::run($this->body),
         );
+    }
+
+    public function isAuthor(CommentAuthor $author)
+    {
+        return $this->author_id === $author->getKey();
     }
 }

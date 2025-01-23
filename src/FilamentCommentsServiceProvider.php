@@ -5,6 +5,7 @@ namespace Kirschbaum\FilamentComments;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Livewire\Livewire;
+use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
 use Filament\Support\Facades\FilamentAsset;
 use Kirschbaum\FilamentComments\Livewire\Comments;
@@ -17,6 +18,8 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
         parent::boot();
 
         Livewire::component('comments', Comments::class);
+
+        Blade::componentNamespace('Kirschbaum\\FilamentComments\\View\\Components', 'filament-comments');
     }
 
     public function configurePackage(Package $package): void
