@@ -22,9 +22,6 @@ class Comments extends Component
 
     public string $commentBody = '';
 
-    public $editingCommentId = null;
-    public $editingCommentBody = '';
-
     protected $rules = [
         'commentBody' => 'required|string',
     ];
@@ -39,7 +36,7 @@ class Comments extends Component
         SaveComment::run($this->record, $author, $this->commentBody);
 
         $this->clear();
-        unset($this->comments);
+        $this->dispatch('comment:saved');
     }
 
     public function render()
@@ -47,14 +44,9 @@ class Comments extends Component
         return view('filament-comments::comments');
     }
 
-    #[On('editorContentUpdated')]
+    #[On('body:updated')]
     public function updateCommentBodyContent($value): void
     {
-        if ($this->editingCommentId) {
-            $this->editingCommentBody = $value;
-            return;
-        }
-
         $this->commentBody = $value;
     }
 
@@ -62,47 +54,6 @@ class Comments extends Component
     {
         $this->commentBody = '';
 
-        $this->dispatch('editorContentCleared');
-    }
-
-    #[Computed]
-    public function comments(): Collection
-    {
-        return $this->record->comments()->latest()->with('author')->get();
-    }
-
-    public function startEditing($commentId): void
-    {
-        $comment = $this->record->comments()->find($commentId);
-
-        if ($comment->author_id !== auth()->id()) {
-            return;
-        }
-
-        $this->editingCommentId = $commentId;
-        $this->editingCommentBody = $comment->body;
-    }
-
-    public function updateComment($commentId)
-    {
-        $comment = $this->record->comments()->find($commentId);
-
-        if ($comment->author_id !== auth()->id()) {
-            dump('nope??');
-            return;
-        }
-
-        $comment->update([
-            'body' => $this->editingCommentBody,
-        ]);
-
-        $this->editingCommentId = null;
-        $this->editingCommentBody = '';
-    }
-
-    public function cancelEditing()
-    {
-        $this->editingCommentId = null;
-        $this->editingCommentBody = '';
+        $this->dispatch('comments:content:cleared');
     }
 }

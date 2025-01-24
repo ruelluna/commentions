@@ -1,4 +1,4 @@
-<div class="flex items-start space-x-4 border p-4 rounded-lg shadow-sm" wire:key="comment-{{ $comment->id }}">
+<div class="flex items-start space-x-4 border p-4 rounded-lg shadow-sm mb-2">
     <img
         src="{{ filament()->getUserAvatarUrl($comment->author) }}"
         alt="User Avatar"
@@ -9,13 +9,23 @@
         <div class="text-sm font-bold text-gray-900 flex justify-between items-center">
             <div>
                 {{ $comment->author->name }}
-                <span class="text-xs text-gray-500" title="Commented at {{ $comment->created_at->format('Y-m-d H:i:s') }}">{{ $comment->created_at->diffForHumans() }}</span>
+                <span
+                    class="text-xs text-gray-500"
+                    title="Commented at {{ $comment->created_at->format('Y-m-d H:i:s') }}"
+                >{{ $comment->created_at->diffForHumans() }}</span>
+
+                @if ($comment->updated_at->gt($comment->created_at))
+                    <span
+                        class="text-xs text-gray-300 ml-1"
+                        title="Edited at {{ $comment->updated_at->format('Y-m-d H:i:s') }}"
+                    >(edited)</span>
+                @endif
             </div>
 
             @if ($comment->isAuthor(auth()->user()))
                 <x-filament::icon-button
                     icon="heroicon-s-pencil-square"
-                    wire:click="startEditing({{ $comment->id }})"
+                    wire:click="edit"
                     size="xs"
                     color="gray"
                 >
@@ -23,10 +33,10 @@
             @endif
         </div>
 
-        @if ($editingCommentId === $comment->id)
+        @if ($editing)
             <div class="mt-2">
                 <div class="tip-tap-container mb-2" wire:ignore>
-                    <div x-data="editor(@js($editingCommentBody), @js($mentionables))">
+                    <div x-data="editor(@js($commentBody), @js($mentionables), 'comment')">
                         <div x-ref="element"></div>
                     </div>
                 </div>

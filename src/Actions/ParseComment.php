@@ -29,13 +29,12 @@ class ParseComment
             '/<span[^>]*class="[^"]*\bmention\b[^"]*"[^>]*data-type="mention"[^>]*>/i',
             function ($match) {
                 $originalTag = $match[0];
-                // dd($originalTag);
 
                 // Inside that tag, find the class="..." portion and append " text-xs"
                 // if "text-xs" is not already present.
                 $updatedTag = preg_replace_callback(
                     '/class="([^"]*)"/i',
-                    fn () => 'class="p-1 bg-gray-200 text-gray-600 rounded-lg"',
+                    fn () => 'class="p-1 bg-blue-100 text-gray-600 rounded-lg text-cs"',
                     $originalTag,
                     1  // Replace only the first occurrence of class="...".
                 );

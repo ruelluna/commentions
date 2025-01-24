@@ -5,7 +5,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import suggestion from './suggestion'
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('editor', (content, mentions = []) => {
+    Alpine.data('editor', (content, mentions, component) => {
         let editor
 
         return {
@@ -41,7 +41,7 @@ document.addEventListener('alpine:init', () => {
                     },
 
                     onUpdate({ editor }) {
-                        Livewire.dispatch('editorContentUpdated', {
+                        Livewire.dispatchTo(`filament-comments::${component}`, `body:updated`, {
                             value: editor.getHTML()
                         });
 
@@ -53,10 +53,12 @@ document.addEventListener('alpine:init', () => {
                 });
 
                 // Watch for changes in the content property from Livewire
-                Livewire.on('editorContentCleared', (newValue) => {
+                console.log('clearing', `${component}:content:cleared`);
+                Livewire.on(`${component}:content:cleared`, () => {
                     editor.commands.setContent('');
                 });
             },
+
             isLoaded() {
                 return editor
             },

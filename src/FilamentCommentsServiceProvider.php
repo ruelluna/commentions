@@ -2,12 +2,14 @@
 
 namespace Kirschbaum\FilamentComments;
 
-use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
 use Livewire\Livewire;
+use Filament\Support\Assets\Js;
+use Filament\Support\Assets\Css;
 use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
 use Filament\Support\Facades\FilamentAsset;
+use Kirschbaum\FilamentComments\Livewire\Comment;
+use Kirschbaum\FilamentComments\Livewire\CommentList;
 use Kirschbaum\FilamentComments\Livewire\Comments;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,9 +19,10 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
-        Livewire::component('comments', Comments::class);
+        Livewire::component('filament-comments::comment', Comment::class);
+        Livewire::component('filament-comments::comments', Comments::class);
 
-        Blade::componentNamespace('Kirschbaum\\FilamentComments\\View\\Components', 'filament-comments');
+        // Blade::componentNamespace('Kirschbaum\\FilamentComments\\View\\Components', 'filament-comments');
     }
 
     public function configurePackage(Package $package): void
@@ -39,6 +42,10 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        Livewire::component('filament-comments::comment', Comment::class);
+        Livewire::component('filament-comments::comment-list', CommentList::class);
+        Livewire::component('filament-comments::comments', Comments::class);
+
         // Asset Registration
         FilamentAsset::register(
             [
@@ -53,10 +60,5 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
             ],
             'filament-comments'
         );
-
-        // FilamentAsset::registerScriptData(
-        //     $this->getScriptData(),
-        //     $this->getAssetPackageName()
-        // );
     }
 }
