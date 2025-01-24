@@ -30,6 +30,7 @@ class CommentList extends Component
 
     #[On('comment:saved')]
     #[On('comment:updated')]
+    #[On('comment:deleted')]
     public function reloadComments(): void
     {
         unset($this->comments);

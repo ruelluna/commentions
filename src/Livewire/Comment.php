@@ -18,10 +18,24 @@ class Comment extends Component
 
     public string $commentBody = '';
     public bool $editing = false;
+    public bool $showDeleteModal = false;
 
     protected $rules = [
         'commentBody' => 'required|string',
     ];
+
+
+    public function delete()
+    {
+        if (! $this->comment->isAuthor(auth()->user())) {
+            return;
+        }
+
+        $this->comment->delete();
+        $this->showDeleteModal = false;
+
+        $this->dispatch('comment:deleted');
+    }
 
     public function render()
     {

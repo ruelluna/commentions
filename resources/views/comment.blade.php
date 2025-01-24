@@ -23,13 +23,21 @@
             </div>
 
             @if ($comment->isAuthor(auth()->user()))
-                <x-filament::icon-button
-                    icon="heroicon-s-pencil-square"
-                    wire:click="edit"
-                    size="xs"
-                    color="gray"
-                >
-                </x-filament::icon-button>
+                <div class="flex space-x-1">
+                    <x-filament::icon-button
+                        icon="heroicon-s-pencil-square"
+                        wire:click="edit"
+                        size="xs"
+                        color="gray"
+                    />
+
+                    <x-filament::icon-button
+                        icon="heroicon-s-trash"
+                        wire:click="$dispatch('open-modal', { id: 'delete-comment-modal-{{ $comment->id }}' })"
+                        size="xs"
+                        color="gray"
+                    />
+                </div>
             @endif
         </div>
 
@@ -62,4 +70,37 @@
             <div class="mt-1 space-y-6 text-sm text-gray-800">{!! $comment->body_parsed !!}</div>
         @endif
     </div>
+
+    <x-filament::modal
+        id="delete-comment-modal-{{ $comment->id }}"
+        wire:model="showDeleteModal"
+        width="sm"
+    >
+        <x-slot name="heading">
+            Delete Comment
+        </x-slot>
+
+        <div class="py-4">
+            Are you sure you want to delete this comment? This action cannot be undone.
+        </div>
+
+        <x-slot name="footer">
+            <div class="flex justify-end gap-x-4">
+                <x-filament::button
+                    wire:click="$dispatch('hide-modal', { id: 'delete-comment-modal-{{ $comment->id }}' })"
+                    color="gray"
+                >
+                    Cancel
+                </x-filament::button>
+
+                <x-filament::button
+                    wire:click="delete"
+                    color="danger"
+                >
+                    Delete
+                </x-filament::button>
+            </div>
+        </x-slot>
+    </x-filament::modal>
+
 </div>
