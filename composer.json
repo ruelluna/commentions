@@ -6,7 +6,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Kirschbaum\\FilamentComments\\": "src/"
+            "Kirschbaum\\FilamentComments\\": "src/",
+            "Kirschbaum\\FilamentComments\\Database\\Factories\\": "database/factories/"
         }
     },
     "authors": [

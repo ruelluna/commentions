@@ -12,8 +12,8 @@ const renderSuggestionsComponent = (items) => {
     return {
         items: ({ query }) => {
             filteredItems = items
-            .filter(item => item.name.toLowerCase().startsWith(query.toLowerCase()))
-            .slice(0, 5);
+                .filter(item => item.name.toLowerCase().startsWith(query.toLowerCase()))
+                .slice(0, 5);
 
             Alpine.store('filamentCommentsMentionsFiltered').items = filteredItems;
 
@@ -26,6 +26,7 @@ const renderSuggestionsComponent = (items) => {
             const nodeAfter = editor.view.state.selection.$to.nodeAfter
             const overrideSpace = nodeAfter?.text?.startsWith(' ')
 
+            // TODO: Sometimes the range is buggy and fails to insert the mention.
             if (editor.view.state.mention$.text.length > 1) {
                 range.to = range.from + (editor.view.state.mention$.text.length - 1);
             }

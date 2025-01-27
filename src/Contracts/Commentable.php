@@ -2,8 +2,12 @@
 
 namespace Kirschbaum\FilamentComments\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+/**
+ * @mixin Model
+ */
 interface Commentable
 {
     public function comments(): MorphMany;

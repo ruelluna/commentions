@@ -15,16 +15,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class FilamentCommentsServiceProvider extends PackageServiceProvider
 {
-    public function boot()
-    {
-        parent::boot();
-
-        Livewire::component('filament-comments::comment', Comment::class);
-        Livewire::component('filament-comments::comments', Comments::class);
-
-        // Blade::componentNamespace('Kirschbaum\\FilamentComments\\View\\Components', 'filament-comments');
-    }
-
     public function configurePackage(Package $package): void
     {
         /*

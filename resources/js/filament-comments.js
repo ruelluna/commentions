@@ -53,15 +53,17 @@ document.addEventListener('alpine:init', () => {
                 });
 
                 // Watch for changes in the content property from Livewire
-                console.log('clearing', `${component}:content:cleared`);
                 Livewire.on(`${component}:content:cleared`, () => {
                     editor.commands.setContent('');
                 });
+
+                // TODO: Add keyboard interactions with the mentions
             },
 
             isLoaded() {
                 return editor
             },
+
             isActive(type, opts = {}) {
                 return editor.isActive(type, opts)
             },

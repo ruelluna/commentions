@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kirschbaum\FilamentComments\Actions\ParseComment;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kirschbaum\FilamentComments\Actions\HtmlToMarkdown;
 use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
+use Kirschbaum\FilamentComments\Database\Factories\CommentFactory;
 
 class Comment extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'body',
         'author_type',
@@ -44,5 +48,10 @@ class Comment extends Model
     public function isAuthor(CommentAuthor $author)
     {
         return $this->author_id === $author->getKey();
+    }
+
+    protected static function newFactory()
+    {
+        return CommentFactory::new();
     }
 }
