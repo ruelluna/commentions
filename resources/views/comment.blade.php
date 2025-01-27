@@ -2,7 +2,7 @@
     <img
         src="{{ filament()->getUserAvatarUrl($comment->author) }}"
         alt="User Avatar"
-        class="w-10 h-10 rounded-full mt-1"
+        class="w-10 h-10 rounded-full mt-0.5 object-cover object-center"
     />
 
     <div class="flex-1">
