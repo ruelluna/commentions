@@ -4,6 +4,7 @@ namespace Kirschbaum\FilamentComments\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Filament\Notifications\Notification;
 use Kirschbaum\FilamentComments\Comment as CommentModel;
 use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
 
@@ -35,6 +36,11 @@ class Comment extends Component
         $this->showDeleteModal = false;
 
         $this->dispatch('comment:deleted');
+
+        Notification::make()
+            ->title('Comment deleted')
+            ->success()
+            ->send();
     }
 
     public function render()

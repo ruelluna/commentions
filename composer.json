@@ -16,7 +16,8 @@
         }
     ],
     "require": {
-        "spatie/laravel-package-tools": "^1.18"
+        "spatie/laravel-package-tools": "^1.18",
+        "league/html-to-markdown": "^5.2@dev"
     },
     "extra": {
         "laravel": {

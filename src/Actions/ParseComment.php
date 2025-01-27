@@ -2,11 +2,6 @@
 
 namespace Kirschbaum\FilamentComments\Actions;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
-use Kirschbaum\FilamentComments\Events\UserWasMentionedEvent;
-
 class ParseComment
 {
     public static function run(...$args)
@@ -34,9 +29,9 @@ class ParseComment
                 // if "text-xs" is not already present.
                 $updatedTag = preg_replace_callback(
                     '/class="([^"]*)"/i',
-                    fn () => 'class="p-1 bg-blue-100 text-gray-600 rounded-lg text-cs"',
+                    fn () => 'class="p-1 bg-blue-100 text-gray-600 rounded-lg text-xs"',
                     $originalTag,
-                    1  // Replace only the first occurrence of class="...".
+                    1,
                 );
 
                 return $updatedTag;
