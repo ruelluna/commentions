@@ -47,6 +47,7 @@ document.addEventListener('alpine:init', () => {
 
                         _this.updatedAt = Date.now()
                     },
+
                     onSelectionUpdate({ editor }) {
                         _this.updatedAt = Date.now()
                     },

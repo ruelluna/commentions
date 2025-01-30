@@ -5,9 +5,8 @@ const renderSuggestionsComponent = (items) => {
 
     Alpine.store('filamentCommentsMentionsFiltered', {
         items: [],
+        selectedIndex: 0,
     });
-
-
 
     return {
         items: ({ query }) => {
@@ -16,6 +15,7 @@ const renderSuggestionsComponent = (items) => {
                 .slice(0, 5);
 
             Alpine.store('filamentCommentsMentionsFiltered').items = filteredItems;
+            Alpine.store('filamentCommentsMentionsFiltered').selectedIndex = 0;
 
             return filteredItems
         },
@@ -57,12 +57,13 @@ const renderSuggestionsComponent = (items) => {
         },
 
         render: () => {
-            console.log('render');
             let popup;
             let component;
+            let command;
 
             return {
                 onStart: (props) => {
+                    command = props.command;
                     popup = tippy('body', {
                         getReferenceClientRect: props.clientRect,
                         content: (() => {
@@ -75,8 +76,13 @@ const renderSuggestionsComponent = (items) => {
                             const container = document.createElement('div');
                             container.setAttribute('x-data', 'filamentCommentsMentions');
                             container.innerHTML = `
-                                <template x-for='item in $store.filamentCommentsMentionsFiltered.items' :key='item.id'>
-                                    <div class="mention-item" x-text="item.name" @click="add(item)"></div>
+                                <template x-for='(item, index) in $store.filamentCommentsMentionsFiltered.items' :key='item.id'>
+                                    <div
+                                        class="mention-item"
+                                        x-text="item.name"
+                                        @click="add(item)"
+                                        :class="{ 'bg-gray-100': $store.filamentCommentsMentionsFiltered.selectedIndex === index }"
+                                    ></div>
                                 </template>
                             `;
                             return container;
@@ -86,46 +92,43 @@ const renderSuggestionsComponent = (items) => {
                         trigger: 'manual',
                         placement: 'bottom-start',
                         theme: 'light',
-                        arrow: false,
+                        arrow: true,
                     });
                 },
                 onUpdate: (props) => {
-                    // console.log('props', props);
                     if (!props.clientRect) {
                         return
                     }
                     popup[0].setProps({
                         getReferenceClientRect: props.clientRect,
                     });
-
-                    // console.log('onUpdate', props);
-                    // popup.setContent(props.items.map(item => {
-                        //     console.log('item', item);
-                    //     const div = document.createElement('div');
-                    //     div.textContent = item;
-                    //     div.classList.add('mention-item');
-                    //     div.addEventListener('click', () => {
-                        //         props.command({ id: item, label: item });
-                    //         popup.hide();
-                    //     });
-                    //     return div;
-                    // }));
                 },
                 onKeyDown: (props) => {
-                    // if (props.event.key === 'ArrowUp') {
-                    //     this.upHandler()
-                    //     return true
-                    // }
+                    const items = Alpine.store('filamentCommentsMentionsFiltered').items;
+                    let currentIndex = Alpine.store('filamentCommentsMentionsFiltered').selectedIndex;
 
-                    // if (props.event.key === 'ArrowDown') {
-                    //     this.downHandler()
-                    //     return true
-                    // }
+                    if (props.event.key === 'ArrowDown') {
+                        Alpine.store('filamentCommentsMentionsFiltered').selectedIndex = (currentIndex + 1) % items.length;
+                        return true;
+                    }
 
-                    // if (props.event.key === 'Enter') {
-                    //     this.enterHandler()
-                    //     return true
-                    // }
+                    if (props.event.key === 'ArrowUp') {
+                        Alpine.store('filamentCommentsMentionsFiltered').selectedIndex = ((currentIndex - 1) + items.length) % items.length;
+                        return true;
+                    }
+
+                    if (props.event.key === 'Enter') {
+                        const selectedItem = items[currentIndex];
+
+                        if (selectedItem) {
+                            command({
+                                id: selectedItem.id,
+                                label: selectedItem.name
+                            });
+                        }
+
+                        return true;
+                    }
 
                     if (props.event.key === 'Escape') {
                         popup[0].hide();
@@ -136,28 +139,7 @@ const renderSuggestionsComponent = (items) => {
                 },
 
                 onExit: () => {
-                    console.log('onExit');
                     popup[0].hide();
-                },
-
-                upHandler() {
-                    this.selectedIndex = ((this.selectedIndex + this.items.length) - 1) % this.items.length
-                },
-
-                downHandler() {
-                    this.selectedIndex = (this.selectedIndex + 1) % this.items.length
-                },
-
-                enterHandler() {
-                    this.selectItem(this.selectedIndex)
-                },
-
-                selectItem(index) {
-                    const item = this.items[index]
-
-                    if (item) {
-                        this.command({ id: item })
-                    }
                 },
             };
         },

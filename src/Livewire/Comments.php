@@ -2,14 +2,14 @@
 
 namespace Kirschbaum\FilamentComments\Livewire;
 
-use App\Models\User;
+use Closure;
 use Livewire\Component;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Kirschbaum\FilamentComments\Actions\SaveComment;
 use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
+use Livewire\Attributes\Computed;
 
 class Comments extends Component
 {
@@ -18,7 +18,7 @@ class Comments extends Component
     /**
      * @var CommentAuthor[]
      */
-    public array $mentionables = [];
+    public array|Collection $mentionables = [];
 
     public string $commentBody = '';
 
@@ -55,5 +55,13 @@ class Comments extends Component
         $this->commentBody = '';
 
         $this->dispatch('comments:content:cleared');
+    }
+
+    #[Computed]
+    public function mentions()
+    {
+        return is_callable($this->mentionables)
+            ? call_user_func_array($this->mentionables, [$this->record])
+            : $this->mentionables;
     }
 }
