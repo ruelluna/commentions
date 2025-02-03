@@ -1,5 +1,27 @@
 import tippy from "tippy.js";
 
+const insertMention = (editor, range, props) => {
+    // delete the existing text before insertion
+    editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertContentAt(range, [
+            {
+                type: 'mention',
+                attrs: props,
+            },
+            {
+                type: 'text',
+                text: ' ',
+            },
+        ])
+        .run()
+
+    // get reference to `window` object from editor element, to support cross-frame JS usage
+    editor.view.dom.ownerDocument.defaultView?.getSelection()?.collapseToEnd();
+};
+
 const renderSuggestionsComponent = (items) => {
     let filteredItems = [];
 
@@ -35,25 +57,18 @@ const renderSuggestionsComponent = (items) => {
                 range.to += 1
             }
 
-            // delete the existing text before insertion
-            editor
-                .chain()
-                .focus()
-                .deleteRange(range)
-                .insertContentAt(range, [
-                    {
-                        type: 'mention',
-                        attrs: props,
-                    },
-                    {
-                        type: 'text',
-                        text: ' ',
-                    },
-                ])
-                .run()
+            let attempts = 3;
+            let success = false;
 
-            // get reference to `window` object from editor element, to support cross-frame JS usage
-            editor.view.dom.ownerDocument.defaultView?.getSelection()?.collapseToEnd()
+            while (attempts > 0 && !success) {
+                try {
+                    insertMention(editor, range, props);
+                    success = true;
+                } catch (error) {
+                    attempts--;
+                    range.to -= 1;
+                }
+            }
         },
 
         render: () => {

@@ -27,6 +27,8 @@ class UserWasMentionedEvent
     {
         $this->comment = $comment;
         $this->user = $user;
+
+        logger()->debug('UserWasMentionedEvent dispatched');
     }
 
     /**

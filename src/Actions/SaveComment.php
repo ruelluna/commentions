@@ -29,6 +29,10 @@ class SaveComment
     {
         $users = User::find($this->getMentionIds($body));
 
+        logger()->debug('Dispatching UserWasMentionedEvent events', [
+            'total_mentions' => $users->count(),
+        ]);
+
         $users->each(function ($user) use ($comment) {
             UserWasMentionedEvent::dispatch($comment, $user);
         });
