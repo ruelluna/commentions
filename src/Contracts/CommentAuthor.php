@@ -10,4 +10,9 @@ interface CommentAuthor
      * @return int|string|null
      */
     public function getKey();
+    
+    /**
+     * @return string
+     */
+    public function getMorphClass();
 }

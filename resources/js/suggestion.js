@@ -48,7 +48,6 @@ const renderSuggestionsComponent = (items) => {
             const nodeAfter = editor.view.state.selection.$to.nodeAfter
             const overrideSpace = nodeAfter?.text?.startsWith(' ')
 
-            // TODO: Sometimes the range is buggy and fails to insert the mention.
             if (editor.view.state.mention$.text.length > 1) {
                 range.to = range.from + (editor.view.state.mention$.text.length - 1);
             }

@@ -29,16 +29,16 @@ class CommentFactory extends Factory
     public function commentable(Commentable $commentable): self
     {
         return $this->state(fn (array $attributes) => [
-            'commentable_type' => get_class($commentable),
-            'commentable_id' => $commentable->id,
+            'commentable_type' => $commentable->getMorphClass(),
+            'commentable_id' => $commentable->getKey(),
         ]);
     }
 
     public function author(CommentAuthor $author): self
     {
         return $this->state(fn (array $attributes) => [
-            'author_type' => get_class($author),
-            'author_id' => $author->id,
+            'author_type' => $author->getMorphClass(),
+            'author_id' => $author->getKey(),
         ]);
     }
 }

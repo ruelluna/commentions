@@ -18,8 +18,8 @@ class SaveComment
     {
         $comment = $commentable->comments()->create([
             'body' => $body,
-            'author_id' => $author->id,
-            'author_type' => get_class($author), // TODO: Use morph-type here
+            'author_id' => $author->getKey(),
+            'author_type' => $author->getMorphClass(), // TODO: Use morph-type here
         ]);
 
         $this->dispatchMentionEvents($comment, $body);

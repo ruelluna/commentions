@@ -57,8 +57,6 @@ document.addEventListener('alpine:init', () => {
                 Livewire.on(`${component}:content:cleared`, () => {
                     editor.commands.setContent('');
                 });
-
-                // TODO: Add keyboard interactions with the mentions
             },
 
             isLoaded() {
