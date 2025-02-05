@@ -3,7 +3,6 @@
     "description": "A package to allow you to create comments, tag users and more",
     "type": "library",
     "license": "MIT",
-    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Kirschbaum\\FilamentComments\\": "src/",
@@ -18,7 +17,10 @@
     ],
     "require": {
         "spatie/laravel-package-tools": "^1.18",
-        "league/html-to-markdown": "^5.2@dev"
+        "league/html-to-markdown": "^5.1",
+        "illuminate/support": "^11.0",
+        "illuminate/database": "^11.0",
+        "livewire/livewire": "^3.0"
     },
     "extra": {
         "laravel": {
