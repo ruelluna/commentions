@@ -66,9 +66,3 @@ Infolists\Components\Section::make('Comments')
 And that's it!
 
 ![](screenshots/comments.png)
-
-## TODO
-
-- [ ] Improve keyboard shortcuts in editor and mentions
-- [ ] Dark mode support
-- [ ] Use morph maps when registered
