@@ -2,15 +2,14 @@
 
 namespace Kirschbaum\Commentions\Livewire;
 
-use Closure;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
+use Kirschbaum\Commentions\Config;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Actions\SaveComment;
 use Kirschbaum\Commentions\Contracts\Commenter;
-use Kirschbaum\Commentions\FilamentComments;
 
 class Comments extends Component
 {
@@ -33,7 +32,7 @@ class Comments extends Component
 
         SaveComment::run(
             $this->record,
-            FilamentComments::resolveAuthenticatedUser(),
+            Config::resolveAuthenticatedUser(),
             $this->commentBody
         );
 

@@ -19,7 +19,7 @@ php artisan vendor:publish --tag="commentions-migrations"
 2. In your `User` model implement the `Commenter` interface.
 
 ```php
-use Kirschbaum\FilamentComments\Contracts\Commenter;
+use Kirschbaum\Commentions\Contracts\Commenter;
 
 class User extends Model implements Commenter
 {
@@ -30,8 +30,8 @@ class User extends Model implements Commenter
 3. In the model you want to add comments, implement the `Commentable` interface and the `HasComments` trait.
 
 ```php
-use Kirschbaum\FilamentComments\HasComments;
-use Kirschbaum\FilamentComments\Contracts\Commentable;
+use Kirschbaum\Commentions\HasComments;
+use Kirschbaum\Commentions\Contracts\Commentable;
 
 class Project extends Model implements Commentable
 {
@@ -60,7 +60,7 @@ By default, the `Commenter`
 
 ### Sending notifications when a user is mentioned
 
-Every time a user is mentioned, the `Kirschbaum\FilamentComments\Events\UserWasMentionedEvent` is dispatched. You can listen to this event and send notifications to the mentioned user.
+Every time a user is mentioned, the `Kirschbaum\Commentions\Events\UserWasMentionedEvent` is dispatched. You can listen to this event and send notifications to the mentioned user.
 
 Example usage: 
 
@@ -70,7 +70,7 @@ namespace App\Listeners;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\UserMentionedInCommentNotification;
-use Kirschbaum\FilamentComments\Events\UserWasMentionedEvent;
+use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 class SendUserMentionedNotification implements ShouldQueue
 {
@@ -92,9 +92,9 @@ If you have [event auto-discovery](https://laravel.com/docs/11.x/events#register
 By default, when a new comment is made, the `Commenter` is automatically set to the current user logged in user (`auth()->user()`). If you want to change this behavior, you can implement your own resolver:
 
 ```php
-use Kirschbaum\FilamentComments\FilamentComments;
+use Kirschbaum\Commentions\Config;
 
-FilamentComments::resolveAuthenticatedUserUsing(
+Config::resolveAuthenticatedUserUsing(
     fn () => auth()->guard('my-guard')->user()
 )
 ```

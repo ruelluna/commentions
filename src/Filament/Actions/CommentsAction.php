@@ -21,7 +21,7 @@ class CommentsAction extends Action
 
     public function mentionables(array|Collection $mentionables): self
     {
-        return $this->modalContent(fn (Model $record) => view('filament.comments-modal', [
+        return $this->modalContent(fn (Model $record) => view('commentions::comments-modal', [
             'record' => $record,
             'mentionables' => $mentionables,
         ]));

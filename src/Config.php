@@ -5,7 +5,7 @@ namespace Kirschbaum\Commentions;
 use Closure;
 use Kirschbaum\Commentions\Contracts\Commenter;
 
-class FilamentComments
+class Config
 {
     protected static ?Closure $resolveAuthenticatedUser = null;
 

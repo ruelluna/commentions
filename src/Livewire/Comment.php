@@ -4,6 +4,7 @@ namespace Kirschbaum\Commentions\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Kirschbaum\Commentions\Config;
 use Filament\Notifications\Notification;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Comment as CommentModel;
@@ -28,7 +29,7 @@ class Comment extends Component
 
     public function delete()
     {
-        if (! $this->comment->isAuthor(auth()->user())) {
+        if (! $this->comment->isAuthor(Config::resolveAuthenticatedUser())) {
             return;
         }
 
