@@ -41,7 +41,7 @@ document.addEventListener('alpine:init', () => {
                     },
 
                     onUpdate({ editor }) {
-                        Livewire.dispatchTo(`filament-comments::${component}`, `body:updated`, {
+                        Livewire.dispatchTo(`commentions::${component}`, `body:updated`, {
                             value: editor.getHTML()
                         });
 

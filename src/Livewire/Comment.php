@@ -1,12 +1,12 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Livewire;
+namespace Kirschbaum\Commentions\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Filament\Notifications\Notification;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
-use Kirschbaum\FilamentComments\Comment as CommentModel;
+use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Comment as CommentModel;
 
 class Comment extends Component
 {
@@ -45,7 +45,7 @@ class Comment extends Component
 
     public function render()
     {
-        return view('filament-comments::comment');
+        return view('commentions::comment');
     }
 
     #[On('body:updated')]

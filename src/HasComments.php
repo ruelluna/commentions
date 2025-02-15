@@ -1,9 +1,9 @@
 <?php
 
-namespace Kirschbaum\FilamentComments;
+namespace Kirschbaum\Commentions;
 
-use Kirschbaum\FilamentComments\Actions\SaveComment;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
+use Kirschbaum\Commentions\Actions\SaveComment;
+use Kirschbaum\Commentions\Contracts\Commenter;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasComments

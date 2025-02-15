@@ -1,9 +1,9 @@
-<?php 
+<?php
 
-namespace Kirschbaum\FilamentComments;
+namespace Kirschbaum\Commentions;
 
 use Closure;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
+use Kirschbaum\Commentions\Contracts\Commenter;
 
 class FilamentComments
 {
@@ -13,11 +13,11 @@ class FilamentComments
     {
         static::$resolveAuthenticatedUser = $callback;
     }
-    
+
     public static function resolveAuthenticatedUser(): Commenter
     {
         return static::$resolveAuthenticatedUser
-            ? call_user_func(static::$resolveAuthenticatedUser) 
+            ? call_user_func(static::$resolveAuthenticatedUser)
             : auth()->user();
     }
 }

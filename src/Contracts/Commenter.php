@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Contracts;
+namespace Kirschbaum\Commentions\Contracts;
 
 interface Commenter
 {
@@ -10,7 +10,7 @@ interface Commenter
      * @return int|string|null
      */
     public function getKey();
-    
+
     /**
      * @return string
      */

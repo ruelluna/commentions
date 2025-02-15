@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Contracts;
+namespace Kirschbaum\Commentions\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;

@@ -45,6 +45,6 @@ const defaultOptions = {
 
 compile({
     ...defaultOptions,
-    entryPoints: ['./resources/js/filament-comments.js'],
-    outfile: './resources/dist/filament-comments.js',
+    entryPoints: ['./resources/js/commentions.js'],
+    outfile: './resources/dist/commentions.js',
 })

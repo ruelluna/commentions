@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Actions;
+namespace Kirschbaum\Commentions\Actions;
 
 class ParseComment
 {

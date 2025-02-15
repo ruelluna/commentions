@@ -1,12 +1,12 @@
 {
-    "name": "kirschbaum-development/filament-comments",
+    "name": "kirschbaum-development/commentions",
     "description": "A package to allow you to create comments, tag users and more",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Kirschbaum\\FilamentComments\\": "src/",
-            "Kirschbaum\\FilamentComments\\Database\\Factories\\": "database/factories/"
+            "Kirschbaum\\Commentions\\": "src/",
+            "Kirschbaum\\Commentions\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
@@ -31,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Kirschbaum\\FilamentComments\\FilamentCommentsServiceProvider"
+                "Kirschbaum\\Commentions\\CommentionsServiceProvider"
             ]
         }
     },

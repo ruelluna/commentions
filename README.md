@@ -1,11 +1,11 @@
-# Filament Comments
+# Commentions
 
-Filament Comments is a drop-in package for Filament that allows you to add comments to your resources. It includes mentions, and it dispatches events so you can handle mentions in your own application however you like.
+Commentions is a drop-in package for Filament that allows you to add comments to your resources. It includes mentions, and it dispatches events so you can handle mentions in your own application however you like.
 
 ## Installation
 
 ```bash
-composer require kirschbaum-development/filament-comments
+composer require kirschbaum-development/commentions
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ composer require kirschbaum-development/filament-comments
 1. Publish the migrations
 
 ```bash
-php artisan vendor:publish --tag="filament-comments-migrations"
+php artisan vendor:publish --tag="commentions-migrations"
 ```
 
 2. In your `User` model implement the `Commenter` interface.

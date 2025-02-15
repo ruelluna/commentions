@@ -1,18 +1,18 @@
 <?php
 
-namespace Kirschbaum\FilamentComments;
+namespace Kirschbaum\Commentions;
 
 use App\Models\User;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
-use Kirschbaum\FilamentComments\Actions\ParseComment;
+use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Actions\ParseComment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Kirschbaum\FilamentComments\Contracts\Commentable;
-use Kirschbaum\FilamentComments\Actions\HtmlToMarkdown;
-use Kirschbaum\FilamentComments\Database\Factories\CommentFactory;
+use Kirschbaum\Commentions\Contracts\Commentable;
+use Kirschbaum\Commentions\Actions\HtmlToMarkdown;
+use Kirschbaum\Commentions\Database\Factories\CommentFactory;
 
 /**
  * @property int $id
@@ -63,7 +63,7 @@ class Comment extends Model
             mentionedCallback: $mentionedCallback,
         );
     }
-    
+
     public function isAuthor(Commenter $author)
     {
         return $this->author_id === $author->getKey();

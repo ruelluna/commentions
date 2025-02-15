@@ -1,10 +1,10 @@
 {
-  "name": "filament-comments",
+  "name": "commentions",
   "scripts": {
     "dev:scripts": "node bin/build.js --dev",
     "build:scripts": "node bin/build.js",
-    "dev:styles": "npx @tailwindcss/cli -i ./resources/css/filament-comments.css -o ./resources/dist/filament-comments.css --watch",
-    "build:styles": "npx @tailwindcss/cli -i ./resources/css/filament-comments.css -o ./resources/dist/filament-comments.css --minify",
+    "dev:styles": "npx @tailwindcss/cli -i ./resources/css/commentions.css -o ./resources/dist/commentions.css --watch",
+    "build:styles": "npx @tailwindcss/cli -i ./resources/css/commentions.css -o ./resources/dist/commentions.css --minify",
     "dev": "npm-run-all --parallel dev:*",
     "build": "npm-run-all build:*"
   },

@@ -11,5 +11,5 @@ module.exports = {
     corePlugins: {
         preflight: false,
     },
-    important: '.filament-comments',
+    important: '.commentions',
 }

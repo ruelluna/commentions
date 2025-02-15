@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Livewire;
+namespace Kirschbaum\Commentions\Livewire;
 
 use Closure;
 use Livewire\Component;
@@ -8,9 +8,9 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\FilamentComments\Actions\SaveComment;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
-use Kirschbaum\FilamentComments\FilamentComments;
+use Kirschbaum\Commentions\Actions\SaveComment;
+use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\FilamentComments;
 
 class Comments extends Component
 {
@@ -32,8 +32,8 @@ class Comments extends Component
         $this->validate();
 
         SaveComment::run(
-            $this->record, 
-            FilamentComments::resolveAuthenticatedUser(), 
+            $this->record,
+            FilamentComments::resolveAuthenticatedUser(),
             $this->commentBody
         );
 
@@ -43,7 +43,7 @@ class Comments extends Component
 
     public function render()
     {
-        return view('filament-comments::comments');
+        return view('commentions::comments');
     }
 
     #[On('body:updated')]

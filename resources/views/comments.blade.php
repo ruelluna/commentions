@@ -1,5 +1,5 @@
 <div class="space-y-2">
-    <form wire:submit.prevent="save" x-data="{ wasFocused: false }">
+    <form wire:submit.prevent="save" x-init="console.log('init')" x-data="{ wasFocused: false }">
         {{-- tiptap editor --}}
         <div class="relative tip-tap-container mb-2" id="tip-tap-container" x-on:click="wasFocused = true">
             <div x-data="editor(@js($commentBody), @js($mentionables), 'comments')" wire:ignore>
@@ -22,6 +22,6 @@
         </div>
     </form>
 
-    <livewire:filament-comments::comment-list :record="$record" />
+    <livewire:commentions::comment-list :record="$record" />
 </div>
 

@@ -16,7 +16,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         $this->setUpDatabase();
-        config()->set('filament-comments.user_model', User::class);
+        config()->set('commentions.user_model', User::class);
     }
 
     protected function getPackageProviders($app)

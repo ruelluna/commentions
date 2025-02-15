@@ -1,13 +1,13 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Livewire;
+namespace Kirschbaum\Commentions\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
+use Kirschbaum\Commentions\Contracts\Commenter;
 
 class CommentList extends Component
 {
@@ -20,7 +20,7 @@ class CommentList extends Component
 
     public function render()
     {
-        return view('filament-comments::comment-list');
+        return view('commentions::comment-list');
     }
 
     #[Computed]

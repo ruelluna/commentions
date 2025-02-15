@@ -1,12 +1,12 @@
 <?php
 
-namespace Kirschbaum\FilamentComments\Actions;
+namespace Kirschbaum\Commentions\Actions;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\FilamentComments\Comment;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
-use Kirschbaum\FilamentComments\Events\UserWasMentionedEvent;
+use Kirschbaum\Commentions\Comment;
+use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 class SaveComment
 {
@@ -36,7 +36,7 @@ class SaveComment
             return;
         }
 
-        $userModel = config('filament-comments.user_model');
+        $userModel = config('commentions.user_model');
         $users = $userModel::find($this->getMentionIds($body));
 
         $users->each(function ($user) use ($comment) {
