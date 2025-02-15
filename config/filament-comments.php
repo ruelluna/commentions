@@ -6,5 +6,5 @@ return [
      */
     'table_name' => 'comments',
 
-
+    'user_model' => \App\Models\User::class,
 ];

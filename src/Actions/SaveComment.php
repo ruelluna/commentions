@@ -4,7 +4,8 @@ namespace Kirschbaum\FilamentComments\Actions;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\FilamentComments\Contracts\CommentAuthor;
+use Kirschbaum\FilamentComments\Comment;
+use Kirschbaum\FilamentComments\Contracts\Commenter;
 use Kirschbaum\FilamentComments\Events\UserWasMentionedEvent;
 
 class SaveComment
@@ -14,24 +15,29 @@ class SaveComment
         return (new static)(...$args);
     }
 
-    public function __invoke(Model $commentable, CommentAuthor $author, string $body)
+    public function __invoke(Model $commentable, Commenter $author, string $body): Comment
     {
         $comment = $commentable->comments()->create([
             'body' => $body,
             'author_id' => $author->getKey(),
-            'author_type' => $author->getMorphClass(), // TODO: Use morph-type here
+            'author_type' => $author->getMorphClass(),
         ]);
 
         $this->dispatchMentionEvents($comment, $body);
+
+        return $comment;
     }
 
-    protected function dispatchMentionEvents($comment, $body)
+    protected function dispatchMentionEvents($comment, $body): void
     {
-        $users = User::find($this->getMentionIds($body));
+        $ids = $this->getMentionIds($body);
 
-        logger()->debug('Dispatching UserWasMentionedEvent events', [
-            'total_mentions' => $users->count(),
-        ]);
+        if (count($ids) === 0) {
+            return;
+        }
+
+        $userModel = config('filament-comments.user_model');
+        $users = $userModel::find($this->getMentionIds($body));
 
         $users->each(function ($user) use ($comment) {
             UserWasMentionedEvent::dispatch($comment, $user);
