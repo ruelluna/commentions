@@ -146,7 +146,7 @@ class SendUserMentionedNotification implements ShouldQueue
 
 If you have [event auto-discovery](https://laravel.com/docs/11.x/events#registering-events-and-listeners), this should be enough. Otherwise, make sure to register your listener on the `EventServiceProvider`.
 
-### Customizing the Commenter
+### Resolving the authenticated user
 
 By default, when a new comment is made, the `Commenter` is automatically set to the current user logged in user (`auth()->user()`). If you want to change this behavior, you can implement your own resolver:
 
@@ -158,13 +158,15 @@ Config::resolveAuthenticatedUserUsing(
 )
 ```
 
-### Getting the mentioned commenters from a comment
+### Getting the mentioned Commenters from an existing comment
 
 ```php
 $comment->getMentioned()->each(function (Commenter $commenter) {
     // do something with $commenter...
 });
 ```
+
+***
 
 ## Security
 
