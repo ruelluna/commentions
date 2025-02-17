@@ -1,6 +1,6 @@
 <div class="flex items-start gap-x-4 border p-4 rounded-lg shadow-sm mb-2" id="filament-comment-{{ $comment->id }}">
     <img
-        src="{{ filament()->getUserAvatarUrl($comment->author) }}"
+        src="{{ $comment->getAuthorAvatar() }}"
         alt="User Avatar"
         class="w-10 h-10 rounded-full mt-0.5 object-cover object-center"
     />

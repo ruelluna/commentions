@@ -8,15 +8,13 @@ use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Livewire\Concerns\HasMentions;
 
 class CommentList extends Component
 {
-    public Model $record;
+    use HasMentions;
 
-    /**
-     * @var Commenter[]
-     */
-    public array|Collection $mentionables = [];
+    public Model $record;
 
     public function render()
     {

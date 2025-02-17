@@ -16,7 +16,8 @@ class TestCase extends Orchestra
         parent::setUp();
 
         $this->setUpDatabase();
-        config()->set('commentions.user_model', User::class);
+
+        config()->set('commentions.commenter.model', User::class);
     }
 
     protected function getPackageProviders($app)

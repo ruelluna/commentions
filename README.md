@@ -82,7 +82,40 @@ And that's it!
 
 ### Configuring the User model and the mentionables
 
-By default, the `Commenter`
+If your `User` model lives in a different namespace than `App\Models\User`, you can configure it in the `config/commentions.php` file:
+
+```php
+    'commenter' => [
+        'model' => \App\Domains\Users\User::class,
+    ],
+```
+
+By default, the `name` property will be used to render the mention names. You can customize it either by implementing the Filament `HasName` interface OR by implementing the optional `getCommenterName` method.
+
+```php
+use Filament\Models\Contracts\HasName;
+use Kirschbaum\Commentions\Contracts\Commenter;
+
+class User extends Model implements Commenter, HasName
+{
+    public function getFilamentName(): string
+    {
+        return (string) '#' . $this->id . ' - ' . $this->name;
+    }
+}
+```
+
+```php
+use Kirschbaum\Commentions\Contracts\Commenter;
+
+class User extends Model implements Commenter
+{
+    public function getCommenterName(): string
+    {
+        return (string) '#' . $this->id . ' - ' . $this->name;
+    }
+}
+```
 
 ### Sending notifications when a user is mentioned
 

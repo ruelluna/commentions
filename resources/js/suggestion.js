@@ -85,7 +85,10 @@ const renderSuggestionsComponent = (items) => {
                         content: (() => {
                             component = Alpine.data('filamentCommentsMentions', () => ({
                                 add(item) {
-                                    props.command({ id: item.id, label: item.name });
+                                    props.command({
+                                        id: item.id,
+                                        label: item.name
+                                    });
                                 },
                             }));
 

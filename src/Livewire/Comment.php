@@ -6,18 +6,17 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Config;
+use Livewire\Attributes\Renderless;
 use Filament\Notifications\Notification;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Comment as CommentModel;
+use Kirschbaum\Commentions\Livewire\Concerns\HasMentions;
 
 class Comment extends Component
 {
-    public CommentModel $comment;
+    use HasMentions;
 
-    /**
-     * @var Commenter[]
-     */
-    public array|Collection $mentionables = [];
+    public CommentModel $comment;
 
     public string $commentBody = '';
     public bool $editing = false;
@@ -27,7 +26,7 @@ class Comment extends Component
         'commentBody' => 'required|string',
     ];
 
-
+    #[Renderless]
     public function delete()
     {
         if (! $this->comment->isAuthor(Config::resolveAuthenticatedUser())) {
@@ -51,11 +50,13 @@ class Comment extends Component
     }
 
     #[On('body:updated')]
+    #[Renderless]
     public function updateCommentBodyContent($value): void
     {
         $this->commentBody = $value;
     }
 
+    #[Renderless]
     public function clear(): void
     {
         $this->commentBody = '';
@@ -65,7 +66,7 @@ class Comment extends Component
 
     public function edit(): void
     {
-        if (! $this->comment->isAuthor(auth()->user())) {
+        if (! $this->comment->isAuthor(Config::resolveAuthenticatedUser())) {
             return;
         }
 
@@ -77,8 +78,7 @@ class Comment extends Component
 
     public function updateComment()
     {
-        if (! $this->comment->isAuthor(auth()->user())) {
-            dump('nope??');
+        if (! $this->comment->isAuthor(Config::resolveAuthenticatedUser())) {
             return;
         }
 

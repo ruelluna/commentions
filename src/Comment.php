@@ -82,7 +82,7 @@ class Comment extends Model
      */
     public function getMentioned(): Collection
     {
-        $userModel = config('commentions.user_model');
+        $commenterModel = Config::getCommenterModel();
 
         preg_match_all(
             '/<span[^>]*data-type="mention"[^>]*data-id="(\d+)"[^>]*>/',
@@ -91,7 +91,12 @@ class Comment extends Model
         );
 
         return collect($matches[1] ?? [])
-            ->map(fn ($userId) => $userModel::find($userId))
+            ->map(fn ($userId) => $commenterModel::find($userId))
             ->filter(fn ($mentioned) => $mentioned !== null);
+    }
+
+    public function getAuthorAvatar(): string
+    {
+        return filament()->getUserAvatarUrl($this->author);
     }
 }

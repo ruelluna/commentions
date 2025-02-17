@@ -6,5 +6,10 @@ return [
      */
     'table_name' => 'comments',
 
-    'user_model' => \App\Models\User::class,
+    /**
+     * The commenter config.
+     */
+    'commenter' => [
+        'model' => \App\Models\User::class,
+    ],
 ];
