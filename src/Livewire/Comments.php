@@ -7,6 +7,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Config;
+use Livewire\Attributes\Renderless;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Actions\SaveComment;
 use Kirschbaum\Commentions\Contracts\Commenter;
@@ -46,11 +47,13 @@ class Comments extends Component
     }
 
     #[On('body:updated')]
+    #[Renderless]
     public function updateCommentBodyContent($value): void
     {
         $this->commentBody = $value;
     }
 
+    #[Renderless]
     public function clear(): void
     {
         $this->commentBody = '';
