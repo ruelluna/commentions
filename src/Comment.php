@@ -83,7 +83,12 @@ class Comment extends Model
     public function getMentioned(): Collection
     {
         $userModel = config('commentions.user_model');
-        preg_match_all('/<span[^>]*data-type="mention"[^>]*data-id="(\d+)"[^>]*>/', $this->body, $matches);
+
+        preg_match_all(
+            '/<span[^>]*data-type="mention"[^>]*data-id="(\d+)"[^>]*>/',
+            $this->body,
+            $matches
+        );
 
         return collect($matches[1] ?? [])
             ->map(fn ($userId) => $userModel::find($userId))

@@ -1,6 +1,6 @@
 # Commentions
 
-Commentions is a drop-in package for Filament that allows you to add comments to your resources. It includes mentions, and it dispatches events so you can handle mentions in your own application however you like.
+Commentions is a drop-in package for Filament that allows you to add comments to your resources. You can configure it so your users are mentionable in the comments, and it dispatches events so you can handle mentions in your own application however you like.
 
 ## Installation
 
@@ -52,15 +52,28 @@ Infolists\Components\Section::make('Comments')
     ]),
 ```
 
-2. Or in your actions:
+2. Or in your table actions:
+
+```php
+use Kirschbaum\Commentions\Filament\Actions\CommentsTableAction;
+
+->actions([
+    CommentsTableAction::make()
+        ->mentionables(User::all())
+])
+```
+
+3. Or as a header action:
 
 ```php
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
-->actions([
-    CommentsAction::make()
-        ->mentionables(User::all())
-])
+protected function getHeaderActions(): array
+{
+    return [
+        CommentsAction::make(),
+    ];
+}
 ```
 
 And that's it!

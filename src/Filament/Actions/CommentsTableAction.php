@@ -2,11 +2,11 @@
 
 namespace Kirschbaum\Commentions\Filament\Actions;
 
-use Filament\Actions\Action;
 use Illuminate\Support\Collection;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 
-class CommentsAction extends Action
+class CommentsTableAction extends Action
 {
     public static function make(?string $name = 'comments'): static
     {
@@ -14,7 +14,6 @@ class CommentsAction extends Action
             ->icon('heroicon-o-chat-bubble-left-right')
             ->modalContent(fn (Model $record) => view('commentions::comments-modal', [
                 'record' => $record,
-                'mentionables' => [],
             ]))
             ->modalWidth('xl')
             ->label('Comments')
