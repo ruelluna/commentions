@@ -12,7 +12,7 @@ class CommentsAction extends Action
     {
         return parent::make($name)
             ->icon('heroicon-o-chat-bubble-left-right')
-            ->modalContent(fn (Model $record) => view('filament.comments-modal', [
+            ->modalContent(fn (Model $record) => view('commentions::comments-modal', [
                 'record' => $record,
             ]))
             ->modalWidth('xl')

@@ -5,10 +5,10 @@ namespace Tests\Models;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Tests\Database\Factories\UserFactory;
-use Kirschbaum\FilamentComments\Contracts\Commenter;
+use Kirschbaum\Commentions\Contracts\Commenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-    
+
 
 class User extends Model implements Commenter, AuthenticatableContract
 {

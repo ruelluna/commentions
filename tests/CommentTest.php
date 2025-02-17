@@ -2,12 +2,11 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use Tests\Models\Post;
 use Tests\Models\User;
-use Kirschbaum\FilamentComments\Comment;
-use Kirschbaum\FilamentComments\Events\UserWasMentionedEvent;
+use Kirschbaum\Commentions\Comment;
+use Illuminate\Support\Facades\Event;
+use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 test('it can save a comment', function () {
     $user = User::factory()->create();
@@ -32,7 +31,7 @@ test('it dispatches events for mentions', function () {
     $post = Post::factory()->create();
 
     $comment = $post->comment(
-        sprintf('Hey <span data-type="mention" data-id="%s">@%s</span>', $anotherUser->id, $anotherUser->name), 
+        sprintf('Hey <span data-type="mention" data-id="%s">@%s</span>', $anotherUser->id, $anotherUser->name),
         $user
     );
 
@@ -48,3 +47,25 @@ test('it dispatches events for mentions', function () {
         return $event->user->is($anotherUser);
     });
 });
+
+test('it can get mentioned user ids from comment', function () {
+    $user = User::factory()->create();
+    $mentionedUser1 = User::factory()->create();
+    $mentionedUser2 = User::factory()->create();
+
+    $comment = new Comment([
+        'body' => sprintf(
+            'Hey <span data-type="mention" data-id="%s">@%s</span> and <span data-type="mention" data-id="%s">@%s</span>',
+            $mentionedUser1->id,
+            $mentionedUser1->name,
+            $mentionedUser2->id,
+            $mentionedUser2->name
+        ),
+    ]);
+
+    expect($comment->getMentioned())
+        ->toHaveCount(2)
+        ->toContain($mentionedUser1)
+        ->toContain($mentionedUser2);
+});
+

@@ -22,7 +22,7 @@
                 @endif
             </div>
 
-            @if ($comment->isAuthor(auth()->user()))
+            @if ($comment->isAuthor(Kirschbaum\Commentions\Config::resolveAuthenticatedUser()))
                 <div class="flex gap-x-1">
                     <x-filament::icon-button
                         icon="heroicon-s-pencil-square"

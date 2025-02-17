@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Actions\ParseComment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\Actions\HtmlToMarkdown;
 use Kirschbaum\Commentions\Database\Factories\CommentFactory;
@@ -72,5 +73,20 @@ class Comment extends Model
     protected static function newFactory()
     {
         return CommentFactory::new();
+    }
+
+    /**
+     * Get the IDs of users mentioned in the comment body.
+     *
+     * @return Collection<Commenter>
+     */
+    public function getMentioned(): Collection
+    {
+        $userModel = config('commentions.user_model');
+        preg_match_all('/<span[^>]*data-type="mention"[^>]*data-id="(\d+)"[^>]*>/', $this->body, $matches);
+
+        return collect($matches[1] ?? [])
+            ->map(fn ($userId) => $userModel::find($userId))
+            ->filter(fn ($mentioned) => $mentioned !== null);
     }
 }

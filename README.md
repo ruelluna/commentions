@@ -39,15 +39,28 @@ class Project extends Model implements Commentable
 }
 ```
 
-4. And register the Livewire component in your Filament resources:
+### Usage with Filament
+
+1. And register the component in your Filament Infolists:
 
 ```php
 Infolists\Components\Section::make('Comments')
     ->schema([
         Livewire::make(Comments::class, [
-            'mentionables' => User::all()->toArray(),
+            'mentionables' => User::all(),
         ])
     ]),
+```
+
+2. Or in your actions:
+
+```php
+use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
+
+->actions([
+    CommentsAction::make()
+        ->mentionables(User::all())
+])
 ```
 
 And that's it!
@@ -97,6 +110,14 @@ use Kirschbaum\Commentions\Config;
 Config::resolveAuthenticatedUserUsing(
     fn () => auth()->guard('my-guard')->user()
 )
+```
+
+### Getting the mentioned commenters from a comment
+
+```php
+$comment->getMentioned()->each(function (Commenter $commenter) {
+    // do something with $commenter...
+});
 ```
 
 ## Security

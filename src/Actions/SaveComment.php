@@ -23,35 +23,17 @@ class SaveComment
             'author_type' => $author->getMorphClass(),
         ]);
 
-        $this->dispatchMentionEvents($comment, $body);
+        $this->dispatchMentionEvents($comment);
 
         return $comment;
     }
 
-    protected function dispatchMentionEvents($comment, $body): void
+    protected function dispatchMentionEvents(Comment $comment): void
     {
-        $ids = $this->getMentionIds($body);
+        $mentionees = $comment->getMentioned();
 
-        if (count($ids) === 0) {
-            return;
-        }
-
-        $userModel = config('commentions.user_model');
-        $users = $userModel::find($this->getMentionIds($body));
-
-        $users->each(function ($user) use ($comment) {
-            UserWasMentionedEvent::dispatch($comment, $user);
+        $mentionees->each(function ($mentionee) use ($comment) {
+            UserWasMentionedEvent::dispatch($comment, $mentionee);
         });
-    }
-
-    /**
-     * @return array<int>
-     */
-    protected function getMentionIds($body): array
-    {
-        // find any span with data-type="mention" and return the data-mention-id
-        preg_match_all('/<span[^>]*data-type="mention"[^>]*data-id="(\d+)"[^>]*>/', $body, $matches);
-
-        return $matches[1] ?? [];
     }
 }

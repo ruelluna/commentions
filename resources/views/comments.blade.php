@@ -1,8 +1,11 @@
 <div class="space-y-2" x-data="{ wasFocused: false }">
     <form wire:submit.prevent="save" x-cloak>
         {{-- tiptap editor --}}
-        <div class="relative tip-tap-container mb-2" id="tip-tap-container" x-on:click="wasFocused = true">
-            <div x-data="editor(@js($commentBody), @js($mentionables), 'comments')" wire:ignore>
+        <div class="relative tip-tap-container mb-2" x-on:click="wasFocused = true">
+            <div
+                x-data="editor(@js($commentBody), @js($mentionables), 'comments')"
+                wire:ignore
+            >
                 <div x-ref="element"></div>
             </div>
         </div>

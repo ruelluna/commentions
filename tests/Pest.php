@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,16 @@ pest()->extend(Tests\TestCase::class);
 
 expect()->extend('toBeModel', function (Model $model) {
     return $this->value->is($model);
+});
+
+expect()->pipe('toContain', function (Closure $next, mixed $expected) {
+    if ($expected instanceof Model) {
+        if ($this->value instanceof Collection) {
+            return $this->value->contains(fn ($model) => $model->is($expected));
+        }
+    }
+
+    return $next();
 });
 
 /*

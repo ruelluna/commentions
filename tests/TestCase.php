@@ -2,12 +2,12 @@
 
 namespace Tests;
 
+use Tests\Models\User;
 use Livewire\LivewireServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Kirschbaum\FilamentComments\FilamentCommentsServiceProvider;
-use Tests\Models\User;
+use Kirschbaum\Commentions\CommentionsServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -23,7 +23,7 @@ class TestCase extends Orchestra
     {
         return [
             LivewireServiceProvider::class,
-            FilamentCommentsServiceProvider::class,
+            CommentionsServiceProvider::class,
         ];
     }
 
