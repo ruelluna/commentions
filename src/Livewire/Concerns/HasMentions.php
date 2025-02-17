@@ -26,11 +26,11 @@ trait HasMentions
                     ] :
                     [
                     'id' => $mentionable->getKey(),
-                    'name' => $mentionable instanceof HasName
-                        ? $mentionable->getFilamentName()
+                    'name' => method_exists($mentionable, 'getCommenterName')
+                        ? call_user_func_array([$mentionable, 'getCommenterName'], [])
                         : (
-                            method_exists($mentionable, 'getCommenterName')
-                                ? call_user_method('getCommenterName', $mentionable)
+                            $mentionable instanceof HasName
+                                ? $mentionable->getFilamentName()
                                 : $mentionable->name
                         ),
                 ];
