@@ -27,6 +27,7 @@ class Comments extends Component
         'commentBody' => 'required|string',
     ];
 
+    #[Renderless]
     public function save()
     {
         $this->validate();

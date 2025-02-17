@@ -27,5 +27,8 @@
         </template>
     </form>
 
-    <livewire:commentions::comment-list :record="$record" />
+    <livewire:commentions::comment-list
+        :record="$record"
+        :mentionables="$this->mentions"
+    />
 </div>

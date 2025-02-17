@@ -16,7 +16,8 @@ class CommentsAction extends Action
                 'record' => $record,
             ]))
             ->modalWidth('xl')
-            ->label('Comments');
+            ->label('Comments')
+            ->modalAutofocus(false);
     }
 
     public function mentionables(array|Collection $mentionables): self

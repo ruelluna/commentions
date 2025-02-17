@@ -87,7 +87,7 @@
         <x-slot name="footer">
             <div class="flex justify-end gap-x-4">
                 <x-filament::button
-                    wire:click="$dispatch('hide-modal', { id: 'delete-comment-modal-{{ $comment->id }}' })"
+                    wire:click="$dispatch('close-modal', { id: 'delete-comment-modal-{{ $comment->id }}' })"
                     color="gray"
                 >
                     Cancel

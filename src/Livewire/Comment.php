@@ -4,6 +4,7 @@ namespace Kirschbaum\Commentions\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Config;
 use Filament\Notifications\Notification;
 use Kirschbaum\Commentions\Contracts\Commenter;
@@ -16,7 +17,7 @@ class Comment extends Component
     /**
      * @var Commenter[]
      */
-    public array $mentionables = [];
+    public array|Collection $mentionables = [];
 
     public string $commentBody = '';
     public bool $editing = false;

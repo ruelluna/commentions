@@ -16,7 +16,7 @@ class CommentList extends Component
     /**
      * @var Commenter[]
      */
-    public array $mentionables = [];
+    public array|Collection $mentionables = [];
 
     public function render()
     {
