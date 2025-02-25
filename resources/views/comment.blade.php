@@ -24,11 +24,17 @@
                         title="Edited at {{ $comment->getUpdatedAt()->format('Y-m-d H:i:s') }}"
                     >(edited)</span>
                 @endif
+
+                @if ($comment->getLabel())
+                    <span class="text-xs text-gray-500 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded-md">
+                        {{ $comment->getLabel() }}
+                    </span>
+                @endif
             </div>
 
             @if ($comment->isComment() && $comment->canEdit())
                 <div class="flex gap-x-1">
-                    {{-- <x-filament::icon-button
+                    <x-filament::icon-button
                         icon="heroicon-s-pencil-square"
                         wire:click="edit"
                         size="xs"
@@ -42,7 +48,7 @@
                             size="xs"
                             color="gray"
                         />
-                    @endif --}}
+                    @endif
                 </div>
             @endif
         </div>
@@ -56,7 +62,7 @@
                 </div>
 
                 <div class="flex gap-x-2">
-                    {{-- <x-filament::button
+                    <x-filament::button
                         wire:click="updateComment({{ $comment->getId() }})"
                         size="sm"
                     >
@@ -69,7 +75,7 @@
                         color="gray"
                     >
                         Cancel
-                    </x-filament::button> --}}
+                    </x-filament::button>
                 </div>
             </div>
         @else
@@ -78,7 +84,7 @@
     </div>
 
     @if ($comment->isComment() && $comment->canDelete())
-        {{-- <x-filament::modal
+        <x-filament::modal
             id="delete-comment-modal-{{ $comment->getId() }}"
             wire:model="showDeleteModal"
             width="sm"
@@ -108,6 +114,6 @@
                     </x-filament::button>
                 </div>
             </x-slot>
-        </x-filament::modal> --}}
+        </x-filament::modal>
     @endif
 </div>

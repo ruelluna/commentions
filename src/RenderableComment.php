@@ -15,6 +15,7 @@ class RenderableComment implements RenderableCommentContract, Wireable
     protected ?string $authorAvatar;
     protected string $body;
     protected ?string $parsedBody;
+    protected ?string $label;
     protected DateTime|Carbon $createdAt;
     protected DateTime|Carbon $updatedAt;
     protected bool $canEdit;
@@ -31,6 +32,7 @@ class RenderableComment implements RenderableCommentContract, Wireable
         bool $canDelete = false,
         bool $isComment = false,
         ?string $parsedBody = null,
+        ?string $label = null,
     ) {
         $this->isComment = $isComment;
         $this->id = $id;
@@ -42,6 +44,7 @@ class RenderableComment implements RenderableCommentContract, Wireable
         $this->updatedAt = $updatedAt ?? $createdAt;
         $this->canEdit = $canEdit;
         $this->canDelete = $canDelete;
+        $this->label = $label;
     }
 
     public function isComment(): bool
@@ -84,6 +87,11 @@ class RenderableComment implements RenderableCommentContract, Wireable
         return $this->updatedAt;
     }
 
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
     public function canEdit(): bool
     {
         return $this->canEdit;
@@ -107,6 +115,7 @@ class RenderableComment implements RenderableCommentContract, Wireable
             'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
             'canEdit' => $this->canEdit,
             'canDelete' => $this->canDelete,
+            'label' => $this->label,
         ];
     }
 
@@ -123,6 +132,7 @@ class RenderableComment implements RenderableCommentContract, Wireable
             updatedAt: new Carbon($value['updatedAt']),
             canEdit: $value['canEdit'],
             canDelete: $value['canDelete'],
+            label: $value['label'],
         );
     }
 }

@@ -161,4 +161,9 @@ class Comment extends Model implements RenderableComment
     {
         return $this->canEdit();
     }
+
+    public function getLabel(): ?string
+    {
+        return null;
+    }
 }
