@@ -1,4 +1,4 @@
-# Commentions
+<h1 align="center">Commentions</h1>
 
 ![Laravel Supported Versions](https://img.shields.io/badge/laravel-10.x/11.x/12.x-green.svg)
 [![run-tests](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yaml/badge.svg)](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yaml)
@@ -7,6 +7,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/commentions.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/commentions)
 
 Commentions is a drop-in package for Filament that allows you to add comments to your resources. You can configure it so your users are mentionable in the comments, and it dispatches events so you can handle mentions in your own application however you like.
+
+![](screenshots/comments.png)
 
 ## Installation
 
@@ -47,7 +49,9 @@ class Project extends Model implements Commentable
 
 ### Usage with Filament
 
-1. And register the component in your Filament Infolists:
+There are a couple of ways to use Commentions with Filament.
+
+1. Register the component in your Filament Infolists:
 
 ```php
 Infolists\Components\Section::make('Comments')
@@ -82,13 +86,11 @@ protected function getHeaderActions(): array
 }
 ```
 
-And that's it!
-
-![](screenshots/comments.png)
+***
 
 ### Configuring the User model and the mentionables
 
-If your `User` model lives in a different namespace than `App\Models\User`, you can configure it in the `config/commentions.php` file:
+If your `User` model lives in a different namespace than `App\Models\User`, you can configure it in `config/commentions.php`:
 
 ```php
     'commenter' => [
@@ -170,6 +172,41 @@ Config::resolveAuthenticatedUserUsing(
 $comment->getMentioned()->each(function (Commenter $commenter) {
     // do something with $commenter...
 });
+```
+
+### Polling for new comments
+
+Commentions supports polling for new comments. You can enable it by setting the `pollingEnabled` property to `true` and setting the `pollingInterval` property to the number of seconds between polls when you register the component.
+
+```php
+Infolists\Components\Section::make('Comments')
+    ->schema([
+        Livewire::make(Comments::class, [
+            'pollingEnabled' => true,
+            'pollingInterval' => 30, // optional, default is 60 seconds
+        ])
+    ]),
+```
+
+### Rendering non-Comments in the list
+
+Sometimes you might want to render non-Comments in the list of comments. For example, you might want to render when the status of a project is changed. For this, you can override the `getComments` method in your model, and return instances of the `Kirschbaum\Commentions\RenderableComment` data object.
+
+```php
+use Kirschbaum\Commentions\RenderableComment;
+
+public function getComments(): Collection
+{
+    $statusHistory = $this->statusHistory()->get()->map(fn (StatusHistory $statusHistory) => new RenderableComment(
+        authorName: $statusHistory->user->name,
+        body: sprintf('Status changed from %s to %s', $statusHistory->old_status, $statusHistory->new_status),
+        createdAt: $statusHistory->created_at,
+    ));
+
+    $comments = $this->comments()->latest()->with('author')->get();
+
+    return $statusHistory->merge($comments);
+}
 ```
 
 ***
