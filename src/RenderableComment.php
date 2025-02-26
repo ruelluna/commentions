@@ -2,23 +2,33 @@
 
 namespace Kirschbaum\Commentions;
 
-use Livewire\Wireable;
-use Kirschbaum\Commentions\Contracts\RenderableComment as RenderableCommentContract;
-use DateTime;
 use Carbon\Carbon;
+use DateTime;
+use Kirschbaum\Commentions\Contracts\RenderableComment as RenderableCommentContract;
+use Livewire\Wireable;
 
 class RenderableComment implements RenderableCommentContract, Wireable
 {
     protected bool $isComment;
+
     protected string|int $id;
+
     protected ?string $authorName;
+
     protected ?string $authorAvatar;
+
     protected string $body;
+
     protected ?string $parsedBody;
+
     protected ?string $label;
+
     protected DateTime|Carbon $createdAt;
+
     protected DateTime|Carbon $updatedAt;
+
     protected bool $canEdit;
+
     protected bool $canDelete;
 
     public function __construct(

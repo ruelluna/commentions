@@ -4,14 +4,10 @@ namespace Kirschbaum\Commentions\Actions;
 
 class ParseComment
 {
-    public static function run(...$args)
-    {
-        return (new static)(...$args);
-    }
-
     public function __invoke(string $body)
     {
         $body = $this->parseMentions($body);
+
         return $body;
     }
 
@@ -38,5 +34,10 @@ class ParseComment
             },
             $body
         );
+    }
+
+    public static function run(...$args)
+    {
+        return (new static())(...$args);
     }
 }

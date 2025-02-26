@@ -2,10 +2,10 @@
 
 namespace Kirschbaum\Commentions;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Actions\SaveComment;
 use Kirschbaum\Commentions\Contracts\Commenter;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasComments
 {

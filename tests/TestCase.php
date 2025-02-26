@@ -2,15 +2,14 @@
 
 namespace Tests;
 
-use Tests\Models\User;
-use Filament\Facades\Filament;
 use Filament\FilamentServiceProvider;
-use Livewire\LivewireServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Filament\Support\SupportServiceProvider;
-use Orchestra\Testbench\TestCase as Orchestra;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Kirschbaum\Commentions\CommentionsServiceProvider;
+use Livewire\LivewireServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
+use Tests\Models\User;
 
 class TestCase extends Orchestra
 {
@@ -48,7 +47,7 @@ class TestCase extends Orchestra
     {
         Schema::dropAllTables();
 
-        $migration = include __DIR__.'/../database/migrations/create_filament_comment_tables.php.stub';
+        $migration = include __DIR__ . '/../database/migrations/create_filament_comment_tables.php.stub';
 
         $migration->up();
 

@@ -2,13 +2,12 @@
 
 namespace Kirschbaum\Commentions\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\Commentions\Contracts\Commenter;
+use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Livewire\Concerns\HasMentions;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class CommentList extends Component
 {

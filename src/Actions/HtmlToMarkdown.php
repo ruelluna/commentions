@@ -7,12 +7,7 @@ use League\HTMLToMarkdown\HtmlConverter;
 
 class HtmlToMarkdown
 {
-    public static function run(...$args)
-    {
-        return (new static)(...$args);
-    }
-
-    public function __invoke(string $html, Closure $mentionedCallback = null): string
+    public function __invoke(string $html, ?Closure $mentionedCallback = null): string
     {
         $converter = new HtmlConverter();
         $markdown = $converter->convert($html);
@@ -21,7 +16,7 @@ class HtmlToMarkdown
         return $markdown;
     }
 
-    protected function transformMentionsToMarkdown(string $markdown, Closure $mentionedCallback = null): string
+    protected function transformMentionsToMarkdown(string $markdown, ?Closure $mentionedCallback = null): string
     {
         if ($mentionedCallback) {
             return preg_replace_callback(
@@ -36,5 +31,10 @@ class HtmlToMarkdown
             '*@$2*',
             $markdown
         );
+    }
+
+    public static function run(...$args)
+    {
+        return (new static())(...$args);
     }
 }

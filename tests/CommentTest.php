@@ -2,11 +2,11 @@
 
 namespace Tests;
 
+use Illuminate\Support\Facades\Event;
+use Kirschbaum\Commentions\Comment;
+use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 use Tests\Models\Post;
 use Tests\Models\User;
-use Kirschbaum\Commentions\Comment;
-use Illuminate\Support\Facades\Event;
-use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 test('it can save a comment', function () {
     $user = User::factory()->create();
@@ -68,4 +68,3 @@ test('it can get mentioned user ids from comment', function () {
         ->toContain($mentionedUser1)
         ->toContain($mentionedUser2);
 });
-

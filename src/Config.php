@@ -8,6 +8,7 @@ use Kirschbaum\Commentions\Contracts\Commenter;
 class Config
 {
     protected static ?string $guard = null;
+
     protected static ?Closure $resolveAuthenticatedUser = null;
 
     public static function resolveAuthenticatedUserUsing(Closure $callback): void

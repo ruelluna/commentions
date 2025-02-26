@@ -3,11 +3,19 @@
 namespace Kirschbaum\Commentions\Filament\Actions;
 
 use Filament\Actions\Action;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class CommentsAction extends Action
 {
+    public function mentionables(array|Collection $mentionables): self
+    {
+        return $this->modalContent(fn (Model $record) => view('commentions::comments-modal', [
+            'record' => $record,
+            'mentionables' => $mentionables,
+        ]));
+    }
+
     public static function make(?string $name = 'comments'): static
     {
         return parent::make($name)
@@ -19,13 +27,5 @@ class CommentsAction extends Action
             ->modalWidth('xl')
             ->label('Comments')
             ->modalAutofocus(false);
-    }
-
-    public function mentionables(array|Collection $mentionables): self
-    {
-        return $this->modalContent(fn (Model $record) => view('commentions::comments-modal', [
-            'record' => $record,
-            'mentionables' => $mentionables,
-        ]));
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Tests\Database\Factories;
 
-use Tests\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Tests\Models\Post;
 
 class PostFactory extends Factory
 {

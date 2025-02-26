@@ -2,10 +2,10 @@
 
 namespace Kirschbaum\Commentions\Livewire\Concerns;
 
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
-use Kirschbaum\Commentions\Manager;
 use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Manager;
+use Livewire\Attributes\Computed;
 
 trait HasMentions
 {
@@ -25,9 +25,9 @@ trait HasMentions
                         'name' => data_get($mentionable, 'name'),
                     ] :
                     [
-                    'id' => $mentionable->getKey(),
-                    'name' => Manager::getName($mentionable),
-                ];
+                        'id' => $mentionable->getKey(),
+                        'name' => Manager::getName($mentionable),
+                    ];
             });
     }
 }

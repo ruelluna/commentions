@@ -2,17 +2,17 @@
 
 namespace Kirschbaum\Commentions\Events;
 
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Kirschbaum\Commentions\Comment;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Kirschbaum\Commentions\Contracts\Commenter;
 
 class UserWasMentionedEvent
 {
     use Dispatchable;
-    use SerializesModels;
     use InteractsWithSockets;
+    use SerializesModels;
 
     public readonly Comment $comment;
 
