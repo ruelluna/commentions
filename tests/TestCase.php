@@ -47,7 +47,7 @@ class TestCase extends Orchestra
     {
         Schema::dropAllTables();
 
-        $migration = include __DIR__ . '/../database/migrations/create_filament_comment_tables.php.stub';
+        $migration = include __DIR__ . '/../database/migrations/create_commentions_tables.php.stub';
 
         $migration->up();
 
