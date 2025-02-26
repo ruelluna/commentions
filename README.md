@@ -198,6 +198,7 @@ use Kirschbaum\Commentions\RenderableComment;
 public function getComments(): Collection
 {
     $statusHistory = $this->statusHistory()->get()->map(fn (StatusHistory $statusHistory) => new RenderableComment(
+        id: $statusHistory->id,
         authorName: $statusHistory->user->name,
         body: sprintf('Status changed from %s to %s', $statusHistory->old_status, $statusHistory->new_status),
         createdAt: $statusHistory->created_at,
