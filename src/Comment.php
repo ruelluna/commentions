@@ -111,7 +111,7 @@ class Comment extends Model implements RenderableComment
     public function getAuthorAvatar(): string
     {
         if ($this->author instanceof HasAvatar) {
-            $avatar = $this->author->getFilamentAvatarUrl();
+            return $this->author->getFilamentAvatarUrl();
         }
 
         $name = str(Manager::getName($this->author))
