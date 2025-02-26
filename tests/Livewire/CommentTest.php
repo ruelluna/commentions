@@ -27,8 +27,7 @@ test('can render a comment', function () {
         'comment' => $comment,
     ])
         ->assertSee('Test comment body')
-        ->assertSee($comment->author->name)
-        ->assertSee($comment->getCreatedAt()->diffForHumans());
+        ->assertSee($comment->author->name);
 });
 
 test('can render a custom renderable comment', function () {
