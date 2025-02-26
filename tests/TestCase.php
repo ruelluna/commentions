@@ -8,6 +8,7 @@ use Filament\FilamentServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Filament\Support\SupportServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Kirschbaum\Commentions\CommentionsServiceProvider;
 
@@ -29,6 +30,7 @@ class TestCase extends Orchestra
             LivewireServiceProvider::class,
             CommentionsServiceProvider::class,
             FilamentServiceProvider::class,
+            SupportServiceProvider::class,
         ];
     }
 
