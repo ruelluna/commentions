@@ -3,22 +3,20 @@
 namespace Kirschbaum\Commentions;
 
 use Closure;
-use App\Models\User;
-use Spatie\Color\Rgb;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Support\Facades\FilamentColor;
-use Filament\AvatarProviders\UiAvatarsProvider;
-use Kirschbaum\Commentions\Contracts\Commenter;
-use Kirschbaum\Commentions\Actions\ParseComment;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Kirschbaum\Commentions\Contracts\Commentable;
-use Kirschbaum\Commentions\Actions\HtmlToMarkdown;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Collection;
+use Kirschbaum\Commentions\Actions\HtmlToMarkdown;
+use Kirschbaum\Commentions\Actions\ParseComment;
+use Kirschbaum\Commentions\Contracts\Commentable;
+use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Contracts\RenderableComment;
 use Kirschbaum\Commentions\Database\Factories\CommentFactory;
+use Spatie\Color\Rgb;
 
 /**
  * @property int $id
@@ -62,7 +60,7 @@ class Comment extends Model implements RenderableComment
         );
     }
 
-    public function getBodyMarkdown(Closure $mentionedCallback = null): string
+    public function getBodyMarkdown(?Closure $mentionedCallback = null): string
     {
         return HtmlToMarkdown::run(
             html: $this->body,
@@ -73,11 +71,6 @@ class Comment extends Model implements RenderableComment
     public function isAuthor(Commenter $author)
     {
         return $this->author_id === $author->getKey();
-    }
-
-    protected static function newFactory()
-    {
-        return CommentFactory::new();
     }
 
     /**
@@ -118,7 +111,7 @@ class Comment extends Model implements RenderableComment
     public function getAuthorAvatar(): string
     {
         if ($this->author instanceof HasAvatar) {
-            $avatar = $this->author->getFilamentAvatarUrl();
+            return $this->author->getFilamentAvatarUrl();
         }
 
         $name = str(Manager::getName($this->author))
@@ -165,5 +158,10 @@ class Comment extends Model implements RenderableComment
     public function getLabel(): ?string
     {
         return null;
+    }
+
+    protected static function newFactory()
+    {
+        return CommentFactory::new();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Kirschbaum\Commentions\Actions;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Contracts\Commenter;
@@ -10,11 +9,6 @@ use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 class SaveComment
 {
-    public static function run(...$args)
-    {
-        return (new static)(...$args);
-    }
-
     public function __invoke(Model $commentable, Commenter $author, string $body): Comment
     {
         $comment = $commentable->comments()->create([
@@ -35,5 +29,10 @@ class SaveComment
         $mentionees->each(function ($mentionee) use ($comment) {
             UserWasMentionedEvent::dispatch($comment, $mentionee);
         });
+    }
+
+    public static function run(...$args)
+    {
+        return (new static())(...$args);
     }
 }

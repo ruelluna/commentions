@@ -2,16 +2,14 @@
 
 namespace Kirschbaum\Commentions\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Illuminate\Support\Collection;
-use Kirschbaum\Commentions\Config;
-use Livewire\Attributes\Renderless;
 use Filament\Notifications\Notification;
-use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Comment as CommentModel;
+use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\RenderableComment;
 use Kirschbaum\Commentions\Livewire\Concerns\HasMentions;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
+use Livewire\Component;
 
 class Comment extends Component
 {
@@ -20,7 +18,9 @@ class Comment extends Component
     public CommentModel|RenderableComment $comment;
 
     public string $commentBody = '';
+
     public bool $editing = false;
+
     public bool $showDeleteModal = false;
 
     protected $rules = [

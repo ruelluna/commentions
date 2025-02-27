@@ -2,19 +2,20 @@
 
 namespace Kirschbaum\Commentions;
 
-use Livewire\Livewire;
-use Filament\Support\Assets\Js;
 use Filament\Support\Assets\Css;
-use Illuminate\Support\Facades\Blade;
-use Spatie\LaravelPackageTools\Package;
+use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Kirschbaum\Commentions\Livewire\Comment;
 use Kirschbaum\Commentions\Livewire\CommentList;
 use Kirschbaum\Commentions\Livewire\Comments;
+use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class CommentionsServiceProvider extends PackageServiceProvider
 {
+    public static string $name = 'commentions';
+
     public function configurePackage(Package $package): void
     {
         /*
@@ -23,11 +24,10 @@ class CommentionsServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('commentions')
+            ->name(static::$name)
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_commention_tables')
-        ;
+            ->hasMigration('create_commention_tables');
     }
 
     public function packageBooted(): void
@@ -41,14 +41,14 @@ class CommentionsServiceProvider extends PackageServiceProvider
             [
                 Js::make('commentions-scripts', __DIR__ . '/../resources/dist/commentions.js'),
             ],
-            'commentions'
+            'kirschbaum-development/' . static::$name
         );
 
         FilamentAsset::register(
             [
                 Css::make('commentions', __DIR__ . '/../resources/dist/commentions.css'),
             ],
-            'commentions'
+            'kirschbaum-development/' . static::$name
         );
     }
 }

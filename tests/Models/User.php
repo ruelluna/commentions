@@ -3,21 +3,21 @@
 namespace Tests\Models;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Tests\Database\Factories\UserFactory;
-use Kirschbaum\Commentions\Contracts\Commenter;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\Commentions\Contracts\Commenter;
+use Tests\Database\Factories\UserFactory;
 
-class User extends Model implements Commenter, AuthenticatableContract
+class User extends Model implements AuthenticatableContract, Commenter
 {
-    use HasFactory;
     use Authenticatable;
+    use HasFactory;
 
     protected $guarded = [];
 
     protected static function newFactory(): UserFactory
     {
-        return new UserFactory;
+        return new UserFactory();
     }
 }

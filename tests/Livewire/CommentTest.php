@@ -1,15 +1,13 @@
 <?php
 
-use DateTime;
-use Tests\Models\Post;
-use Tests\Models\User;
-use Tests\Models\Activity;
-use Illuminate\Support\Carbon;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Kirschbaum\Commentions\RenderableComment;
 use Kirschbaum\Commentions\Comment as CommentModel;
 use Kirschbaum\Commentions\Livewire\Comment as CommentComponent;
+use Kirschbaum\Commentions\RenderableComment;
+use Tests\Models\Post;
+use Tests\Models\User;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Livewire\livewire;
 
 test('can render a comment', function () {
     /** @var User $user */

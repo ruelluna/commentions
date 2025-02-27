@@ -2,10 +2,10 @@
 
 namespace Kirschbaum\Commentions\Database\Factories;
 
-use Kirschbaum\Commentions\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Contracts\Commentable;
+use Kirschbaum\Commentions\Contracts\Commenter;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
