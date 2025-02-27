@@ -4,27 +4,32 @@ namespace Kirschbaum\Commentions\Filament\Actions;
 
 use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Kirschbaum\Commentions\Filament\Concerns\HasMentionables;
+use Kirschbaum\Commentions\Filament\Concerns\HasPolling;
 
 class CommentsTableAction extends Action
 {
-    public function mentionables(array|Collection $mentionables): self
-    {
-        return $this->modalContent(fn (Model $record) => view('commentions::comments-modal', [
-            'record' => $record,
-            'mentionables' => $mentionables,
-        ]));
-    }
+    use HasMentionables;
+    use HasPolling;
 
-    public static function make(?string $name = 'comments'): static
+    protected function setUp(): void
     {
-        return parent::make($name)
+        parent::setUp();
+
+        $this
             ->icon('heroicon-o-chat-bubble-left-right')
             ->modalContent(fn (Model $record) => view('commentions::comments-modal', [
                 'record' => $record,
+                'mentionables' => $this->getMentionables(),
+                'pollingInterval' => $this->getPollingInterval(),
             ]))
             ->modalWidth('xl')
             ->label('Comments')
             ->modalAutofocus(false);
+    }
+
+    public static function getDefaultName(): ?string
+    {
+        return 'commentList';
     }
 }

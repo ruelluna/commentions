@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Actions\SaveComment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Livewire\Concerns\HasMentions;
+use Kirschbaum\Commentions\Livewire\Concerns\HasPolling;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
@@ -13,14 +14,11 @@ use Livewire\Component;
 class Comments extends Component
 {
     use HasMentions;
+    use HasPolling;
 
     public Model $record;
 
     public string $commentBody = '';
-
-    public bool $pollingEnabled = false;
-
-    public int $pollingInterval = 60;
 
     protected $rules = [
         'commentBody' => 'required|string',

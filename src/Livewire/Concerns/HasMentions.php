@@ -12,7 +12,7 @@ trait HasMentions
     /**
      * @var Commenter[]
      */
-    public array|Collection $mentionables = [];
+    public array|Collection|null $mentionables = [];
 
     #[Computed]
     public function mentions()
