@@ -186,7 +186,7 @@ $comment->getMentioned()->each(function (Commenter $commenter) {
 
 ### Polling for new comments
 
-Commentions supports polling for new comments. You can enable it on any component by calling the `pollingInterval` property and passing the number of seconds.
+Commentions supports polling for new comments. You can enable it on any component by calling the `pollingInterval` method and passing the number of seconds.
 
 ```php
 Infolists\Components\Section::make('Comments')
