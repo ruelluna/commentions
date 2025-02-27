@@ -49,6 +49,17 @@ class Project extends Model implements Commentable
 
 ### Usage with Filament
 
+You are free to register the plugin in your Panel(s); however, there is currently no configuration required or supported at the Panel level although it is a good habit:
+
+```php
+use Kirschbaum\Commentions\CommentionsPlugin;
+
+return $panel
+    ->plugins([
+        CommentionsPlugin::make()
+    ])
+```
+
 There are a couple of ways to use Commentions with Filament.
 
 1. Register the component in your Filament Infolists:
@@ -56,9 +67,8 @@ There are a couple of ways to use Commentions with Filament.
 ```php
 Infolists\Components\Section::make('Comments')
     ->schema([
-        Livewire::make(Comments::class, [
-            'mentionables' => User::all(),
-        ])
+        CommentsEntry::make('comments')
+            ->mentionables(fn (Model $record) => User::all()),
     ]),
 ```
 
@@ -176,15 +186,13 @@ $comment->getMentioned()->each(function (Commenter $commenter) {
 
 ### Polling for new comments
 
-Commentions supports polling for new comments. You can enable it by setting the `pollingEnabled` property to `true` and setting the `pollingInterval` property to the number of seconds between polls when you register the component.
+Commentions supports polling for new comments. You can enable it on any component by calling the `pollingInterval` property and passing the number of seconds.
 
 ```php
 Infolists\Components\Section::make('Comments')
     ->schema([
-        Livewire::make(Comments::class, [
-            'pollingEnabled' => true,
-            'pollingInterval' => 30, // optional, default is 60 seconds
-        ])
+        CommentsEntry::make('comments')
+            ->pollingInterval(10)
     ]),
 ```
 
