@@ -1,4 +1,4 @@
-<h1 align="center">Commentions</h1>
+![](screenshots/commentions-logo.png)
 
 ![Laravel Supported Versions](https://img.shields.io/badge/laravel-10.x/11.x/12.x-green.svg)
 [![tests](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yml/badge.svg)](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yml)
