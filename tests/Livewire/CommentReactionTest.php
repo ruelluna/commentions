@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Event;
 use Kirschbaum\Commentions\Comment as CommentModel;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Database\Factories\CommentFactory;
-use Kirschbaum\Commentions\Events\CommentReactionToggledEvent;
+use Kirschbaum\Commentions\Events\CommentWasReactedEvent;
 use Kirschbaum\Commentions\Livewire\Comment as CommentComponent;
 use Kirschbaum\Commentions\Livewire\Reactions;
 use Tests\Database\Factories\PostFactory;
@@ -32,11 +32,8 @@ test('user can add configured reactions to a comment', function (string $reactio
     livewire(CommentComponent::class, ['comment' => $comment])
         ->call('toggleReaction', $reactionEmoji);
 
-    Event::assertDispatched(CommentReactionToggledEvent::class, function (CommentReactionToggledEvent $event) use ($comment, $user, $reactionEmoji) {
+    Event::assertDispatched(CommentWasReactedEvent::class, function (CommentWasReactedEvent $event) use ($comment, $user, $reactionEmoji) {
         return $event->comment->is($comment)
-            && $event->user->is($user)
-            && $event->reactionType === $reactionEmoji
-            && $event->wasCreated === true
             && $event->reaction !== null
             && $event->reaction->reaction === $reactionEmoji;
     });
@@ -76,15 +73,6 @@ test('user can remove their reaction from a comment', function (string $reaction
 
     livewire(CommentComponent::class, ['comment' => $comment])
         ->call('toggleReaction', $reactionEmoji);
-
-    Event::assertDispatched(CommentReactionToggledEvent::class, function (CommentReactionToggledEvent $event) use ($comment, $user, $reactionEmoji, $reaction) {
-        return $event->comment->is($comment)
-            && $event->user->is($user)
-            && $event->reactionType === $reactionEmoji
-            && $event->wasCreated === false
-            && $event->reaction !== null // The deleted reaction model is passed
-            && $event->reaction->is($reaction);
-    });
 
     $this->assertDatabaseMissing('comment_reactions', [
         'comment_id' => $comment->id,

@@ -6,7 +6,7 @@ use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\CommentReaction;
 use Kirschbaum\Commentions\Contracts\Commenter;
-use Kirschbaum\Commentions\Events\CommentReactionToggledEvent;
+use Kirschbaum\Commentions\Events\CommentWasReactedEvent;
 
 class ToggleCommentReaction
 {
@@ -30,27 +30,16 @@ class ToggleCommentReaction
 
         if ($existingReaction) {
             $existingReaction->delete();
-
-            event(new CommentReactionToggledEvent(
-                comment: $comment,
-                reaction: $existingReaction,
-                user: $user,
-                reactionType: $reaction,
-                wasCreated: false
-            ));
         } else {
-            $newReaction = $comment->reactions()->create([
+            $reaction = $comment->reactions()->create([
                 'reactor_id' => $user->getKey(),
                 'reactor_type' => $user->getMorphClass(),
                 'reaction' => $reaction,
             ]);
 
-            event(new CommentReactionToggledEvent(
+            event(new CommentWasReactedEvent(
                 comment: $comment,
-                reaction: $newReaction,
-                user: $user,
-                reactionType: $reaction,
-                wasCreated: true
+                reaction: $reaction,
             ));
         }
     }
