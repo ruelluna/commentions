@@ -292,6 +292,7 @@ If you discover any security related issues, please email security@kirschbaumdev
 ## Credits
 
 - [Luis Dalmolin](https://github.com/luisdalmolin)
+- [All contributors](https://github.com/kirschbaum-development/commentions/graphs/contributors)
 
 ## Sponsorship
 
