@@ -126,8 +126,6 @@ By default, users can create comments, as well as edit and delete their own comm
 #### 1) Create a custom policy
 
 ```php
-<?php
-
 namespace App\Policies;
 
 use Kirschbaum\Commentions\Comment;
