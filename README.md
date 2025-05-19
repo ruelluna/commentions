@@ -8,7 +8,7 @@
 
 Commentions is a drop-in package for Filament that allows you to add comments to your resources. You can configure it so your users are mentionable in the comments, and it dispatches events so you can handle mentions in your own application however you like.
 
-![](screenshots/comments.png)
+![](screenshots/comments-demo.png)
 
 ## Installation
 
@@ -187,6 +187,22 @@ class User extends Model implements Commenter
     public function getCommenterName(): string
     {
         return (string) '#' . $this->id . ' - ' . $this->name;
+    }
+}
+```
+
+### Configuring the Commenter avatar
+
+To configure the avatar, make sure your User model implements Filament's `HasAvatar` interface.
+
+```php
+use Filament\Models\Contracts\HasAvatar;
+
+class User extends Authenticatable implements Commenter, HasName, HasAvatar
+{
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->avatar_url;
     }
 }
 ```
