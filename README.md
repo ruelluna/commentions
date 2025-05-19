@@ -1,7 +1,7 @@
 ![](screenshots/commentions-logo.png)
 
 ![Laravel Supported Versions](https://img.shields.io/badge/laravel-10.x/11.x/12.x-green.svg)
-[![tests](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yml/badge.svg)](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yml)
+[![CI](https://github.com/kirschbaum-development/commentions/actions/workflows/tests.yml/badge.svg)](https://github.com/kirschbaum-development/commentions/actions/workflows/ci.yml)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/commentions.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/commentions)
 [![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/commentions.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/commentions)
