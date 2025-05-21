@@ -16,7 +16,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
-    config(['commentions.reactions.allowed' => ['👍', '❤️']]);
+    config(['commentions.reactions.allowed' => ['👍', '❤️', '😂', '😮', '😢', '🤔']]);
     Config::resolveAuthenticatedUserUsing(fn () => Auth::user());
     Event::fake();
 });
@@ -49,6 +49,36 @@ test('user can add configured reactions to a comment', function (string $reactio
     expect($comment->reactions)->toHaveCount(1);
     expect($comment->reactions->first()->reaction)->toBe($reactionEmoji);
 })->with(['👍', '❤️']);
+
+test('user can add a reaction when it already has a reaction', function (string $reactionEmoji) {
+    /** @var User $user */
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $post = PostFactory::new()->create();
+    $comment = CommentFactory::new()->author($user)->commentable($post)->create();
+
+    $comment->reactions()->create([
+        'reactor_id' => $user->id,
+        'reactor_type' => $user->getMorphClass(),
+        'reaction' => '😂',
+    ]);
+
+    $comment->toggleReaction($reactionEmoji);
+
+    // $this->assertDatabaseHas('comment_reactions', [
+    //     'comment_id' => $comment->id,
+    //     'reactor_id' => $user->id,
+    //     'reactor_type' => $user->getMorphClass(),
+    //     'reaction' => $reactionEmoji,
+    // ]);
+
+    $comment->refresh();
+
+    expect($comment->reactions)->toHaveCount(2);
+    expect($comment->reactions->contains('reaction', '😂'))->toBeTrue();
+    expect($comment->reactions->contains('reaction', $reactionEmoji))->toBeTrue();
+})->with(['👍', '❤️', '😮', '😢', '🤔']);
 
 test('user can remove their reaction from a comment', function (string $reactionEmoji) {
     /** @var User $user */

@@ -12,10 +12,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('comment_id')->constrained(config('commentions.table_name'))->cascadeOnDelete();
             $table->morphs('reactor');
-            $table->string('reaction', 50);
-            $table->timestamps();
 
-            $table->unique(['comment_id', 'reactor_id', 'reactor_type', 'reaction'], 'comment_reactor_reaction_unique');
+            if (config('database.default') === 'mysql') {
+                $table->string('reaction', 50)->collation('utf8mb4_bin');
+            } else {
+                $table->string('reaction', 50);
+            }
+
+            $table->timestamps();
         });
     }
 
