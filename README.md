@@ -50,20 +50,11 @@ class Project extends Model implements Commentable
 
 ### Usage with Filament
 
-You can register the plugin in your Panel(s) like so:
-
-```php
-use Kirschbaum\Commentions\CommentionsPlugin;
-
-return $panel
-    ->plugins([
-        CommentionsPlugin::make(),
-    ])
-```
-
 There are a couple of ways to use Commentions with Filament.
 
 1. Register the component in your Filament Infolists:
+
+> This works for Filament 3 and 4.
 
 ```php
 Infolists\Components\Section::make('Comments')
@@ -75,6 +66,8 @@ Infolists\Components\Section::make('Comments')
 
 2. Or in your table actions:
 
+If you are using Filament 3, you must use `CommentsTableAction` in your table's `actions` array:
+
 ```php
 use Kirschbaum\Commentions\Filament\Actions\CommentsTableAction;
 
@@ -84,7 +77,20 @@ use Kirschbaum\Commentions\Filament\Actions\CommentsTableAction;
 ])
 ```
 
+If you are using Filament 4, you should use `CommentsAction` in `recordActions` instead:
+
+```php
+use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
+
+->recordActions([
+    CommentsAction::make()
+        ->mentionables(User::all())
+])
+````
+
 3. Or as a header action:
+
+> This works for Filament 3 and 4.
 
 ```php
 use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
@@ -99,7 +105,15 @@ protected function getHeaderActions(): array
 
 ***
 
-### Configuring the User model and the mentionables
+### Configuration
+
+You can publish the configuration file to make changes.
+
+```bash
+php artisan vendor:publish --tag="commentions-config"
+```
+
+#### Configuring the User model and the mentionables
 
 If your `User` model lives in a different namespace than `App\Models\User`, you can configure it in `config/commentions.php`:
 
@@ -109,7 +123,7 @@ If your `User` model lives in a different namespace than `App\Models\User`, you 
     ],
 ```
 
-### Configuring the Comment model
+#### Configuring the Comment model
 
 If you need to customize the Comment model, you can extend the `\Kirschbaum\Commentions\Comment` class and then update the `comment.model` option in your `config/commentions.php` file:
 
@@ -120,20 +134,20 @@ If you need to customize the Comment model, you can extend the `\Kirschbaum\Comm
     ],
 ```
 
-### Configuring Comment permissions
+#### Configuring Comment permissions
 
 By default, users can create comments, as well as edit and delete their own comments. You can adjust these permissions by implementing your own policy:
 
-#### 1) Create a custom policy
+##### 1) Create a custom policy
 
 ```php
 namespace App\Policies;
 
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Contracts\Commenter;
-use Kirschbaum\Commentions\Policies\CommentPolicy;
+use Kirschbaum\Commentions\Policies\CommentPolicy as CommentionsPolicy;
 
-class CommentPolicy extends CommentPolicy
+class CommentPolicy extends CommentionsPolicy
 {
     public function create(Commenter $user): bool
     {
@@ -152,7 +166,7 @@ class CommentPolicy extends CommentPolicy
 }
 ```
 
-#### 2) Register your policy in the configuration file
+##### 2) Register your policy in the configuration file
 
 Update the `comment.policy` option in your `config/commentions.php` file:
 
@@ -266,13 +280,13 @@ $comment->getMentioned()->each(function (Commenter $commenter) {
 
 ### Polling for new comments
 
-Commentions supports polling for new comments. You can enable it on any component by calling the `pollingInterval` method and passing the number of seconds.
+Commentions supports polling for new comments. You can enable it on any component by calling the `poll` method and passing the desired interval.
 
 ```php
 Infolists\Components\Section::make('Comments')
     ->schema([
         CommentsEntry::make('comments')
-            ->pollingInterval(10)
+            ->poll('10s')
     ]),
 ```
 

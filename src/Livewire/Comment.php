@@ -22,8 +22,6 @@ class Comment extends Component
 
     public bool $editing = false;
 
-    public bool $showDeleteModal = false;
-
     protected $rules = [
         'commentBody' => 'required|string',
     ];
@@ -46,7 +44,6 @@ class Comment extends Component
         }
 
         $this->comment->delete();
-        $this->showDeleteModal = false;
 
         $this->dispatch('comment:deleted');
 
