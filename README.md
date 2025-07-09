@@ -227,6 +227,7 @@ class User extends Authenticatable implements Commenter, HasName, HasAvatar
 Two events are dispatched when a comment is created or reacted to:
 
 - `Kirschbaum\Commentions\Events\UserWasMentionedEvent`
+- `Kirschbaum\Commentions\Events\CommentWasCreatedEvent`
 - `Kirschbaum\Commentions\Events\CommentWasReactedEvent`
 
 ### Sending notifications when a user is mentioned
