@@ -2,6 +2,10 @@
 
 namespace Kirschbaum\Commentions\Contracts;
 
+/**
+ * @method bool can(string $ability, $arguments = [])
+ * @method bool cannot(string $ability, $arguments = [])
+ */
 interface Commenter
 {
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
+use Kirschbaum\Commentions\Events\CommentWasCreatedEvent;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 class SaveComment
@@ -26,13 +27,17 @@ class SaveComment
             'author_type' => $author->getMorphClass(),
         ]);
 
-        $this->dispatchMentionEvents($comment);
+        $this->dispatchEvents($comment);
 
         return $comment;
     }
 
-    protected function dispatchMentionEvents(Comment $comment): void
+    protected function dispatchEvents(Comment $comment): void
     {
+        if ($comment->wasRecentlyCreated) {
+            CommentWasCreatedEvent::dispatch($comment);
+        }
+
         $mentionees = $comment->getMentioned();
 
         $mentionees->each(function ($mentionee) use ($comment) {
