@@ -9,6 +9,7 @@ return [
     'tables' => [
         'comments' => 'comments',
         'comment_reactions' => 'comment_reactions',
+        'comment_subscriptions' => 'comment_subscriptions',
     ],
 
     /*
@@ -37,5 +38,17 @@ return [
     */
     'reactions' => [
         'allowed' => ['👍', '❤️', '😂', '😮', '😢', '🤔'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subscriptions
+    |--------------------------------------------------------------------------
+    */
+    'subscriptions' => [
+        // When true, subscribed users will also receive the same event as mentions
+        // (UserWasMentionedEvent). When false, a distinct
+        // UserIsSubscribedToCommentableEvent will be dispatched instead.
+        'dispatch_as_mention' => false,
     ],
 ];

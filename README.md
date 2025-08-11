@@ -322,9 +322,10 @@ return [
 
 ### Events
 
-Two events are dispatched when a comment is created or reacted to:
+Events are dispatched when a comment is created, reacted to, or when users are mentioned or subscribed:
 
 - `Kirschbaum\Commentions\Events\UserWasMentionedEvent`
+- `Kirschbaum\Commentions\Events\UserIsSubscribedToCommentableEvent`
 - `Kirschbaum\Commentions\Events\CommentWasCreatedEvent`
 - `Kirschbaum\Commentions\Events\CommentWasReactedEvent`
 

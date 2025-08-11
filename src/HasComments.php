@@ -30,4 +30,49 @@ trait HasComments
     {
         return $this->commentsQuery()->get();
     }
+
+    /**
+     * Subscribe a user to this commentable.
+     */
+    public function subscribe(Commenter $subscriber): void
+    {
+        CommentSubscription::query()->firstOrCreate([
+            'subscribable_type' => $this->getMorphClass(),
+            'subscribable_id' => $this->getKey(),
+            'subscriber_type' => $subscriber->getMorphClass(),
+            'subscriber_id' => $subscriber->getKey(),
+        ]);
+    }
+
+    /**
+     * Unsubscribe a user from this commentable.
+     */
+    public function unsubscribe(Commenter $subscriber): void
+    {
+        CommentSubscription::query()->where([
+            'subscribable_type' => $this->getMorphClass(),
+            'subscribable_id' => $this->getKey(),
+            'subscriber_type' => $subscriber->getMorphClass(),
+            'subscriber_id' => $subscriber->getKey(),
+        ])->delete();
+    }
+
+    /**
+     * Get all subscribers for this commentable.
+     *
+     * @return Collection<int, Commenter>
+     */
+    public function getSubscribers(): Collection
+    {
+        $commenterModel = Config::getCommenterModel();
+
+        return CommentSubscription::query()
+            ->where('subscribable_type', $this->getMorphClass())
+            ->where('subscribable_id', $this->getKey())
+            ->get()
+            ->map(function (CommentSubscription $subscription) use ($commenterModel) {
+                return $commenterModel::whereKey($subscription->subscriber_id)->first();
+            })
+            ->filter();
+    }
 }

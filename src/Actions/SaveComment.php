@@ -8,6 +8,7 @@ use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Events\CommentWasCreatedEvent;
+use Kirschbaum\Commentions\Events\UserIsSubscribedToCommentableEvent;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 
 class SaveComment
@@ -43,6 +44,27 @@ class SaveComment
         $mentionees->each(function ($mentionee) use ($comment) {
             UserWasMentionedEvent::dispatch($comment, $mentionee);
         });
+
+        $subscribers = method_exists($comment->commentable, 'getSubscribers')
+            ? $comment->commentable->getSubscribers()
+            : collect();
+
+        if ($subscribers->isNotEmpty()) {
+            $excludeIds = collect([$comment->author_id])
+                ->merge($mentionees->map(fn ($u) => $u->getKey()))
+                ->unique()
+                ->all();
+
+            $subscribers
+                ->filter(fn ($subscriber) => ! in_array($subscriber->getKey(), $excludeIds, true))
+                ->each(function (Commenter $subscriber) use ($comment) {
+                    if (config('commentions.subscriptions.dispatch_as_mention', false)) {
+                        UserWasMentionedEvent::dispatch($comment, $subscriber);
+                    } else {
+                        UserIsSubscribedToCommentableEvent::dispatch($comment, $subscriber);
+                    }
+                });
+        }
     }
 
     public static function run(...$args)
