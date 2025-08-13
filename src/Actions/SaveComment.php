@@ -45,6 +45,14 @@ class SaveComment
             UserWasMentionedEvent::dispatch($comment, $mentionee);
         });
 
+        if (config('commentions.subscriptions.auto_subscribe_on_mention', true)
+            && method_exists($comment->commentable, 'subscribe')
+        ) {
+            $mentionees->each(function (Commenter $mentionee) use ($comment) {
+                $comment->commentable->subscribe($mentionee);
+            });
+        }
+
         $subscribers = method_exists($comment->commentable, 'getSubscribers')
             ? $comment->commentable->getSubscribers()
             : collect();
@@ -64,6 +72,19 @@ class SaveComment
                         UserIsSubscribedToCommentableEvent::dispatch($comment, $subscriber);
                     }
                 });
+        }
+
+        if (config('commentions.subscriptions.auto_subscribe_on_comment', true)
+            && method_exists($comment->commentable, 'subscribe')
+        ) {
+            // Only subscribe if not already subscribed
+            if (method_exists($comment->commentable, 'isSubscribed')) {
+                if (! $comment->commentable->isSubscribed($comment->author)) {
+                    $comment->commentable->subscribe($comment->author);
+                }
+            } else {
+                $comment->commentable->subscribe($comment->author);
+            }
         }
     }
 

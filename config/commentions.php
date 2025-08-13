@@ -50,5 +50,11 @@ return [
         // (UserWasMentionedEvent). When false, a distinct
         // UserIsSubscribedToCommentableEvent will be dispatched instead.
         'dispatch_as_mention' => false,
+        // Controls whether the subscribers list is shown in the sidebar UI
+        'show_subscribers' => true,
+        // Automatically subscribe the author when they add a comment
+        'auto_subscribe_on_comment' => true,
+        // Automatically subscribe a user when they are mentioned in a comment
+        'auto_subscribe_on_mention' => true,
     ],
 ];

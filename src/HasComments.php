@@ -31,9 +31,6 @@ trait HasComments
         return $this->commentsQuery()->get();
     }
 
-    /**
-     * Subscribe a user to this commentable.
-     */
     public function subscribe(Commenter $subscriber): void
     {
         CommentSubscription::query()->firstOrCreate([
@@ -44,9 +41,6 @@ trait HasComments
         ]);
     }
 
-    /**
-     * Unsubscribe a user from this commentable.
-     */
     public function unsubscribe(Commenter $subscriber): void
     {
         CommentSubscription::query()->where([
@@ -57,9 +51,17 @@ trait HasComments
         ])->delete();
     }
 
+    public function isSubscribed(Commenter $subscriber): bool
+    {
+        return CommentSubscription::query()->where([
+            'subscribable_type' => $this->getMorphClass(),
+            'subscribable_id' => $this->getKey(),
+            'subscriber_type' => $subscriber->getMorphClass(),
+            'subscriber_id' => $subscriber->getKey(),
+        ])->exists();
+    }
+
     /**
-     * Get all subscribers for this commentable.
-     *
      * @return Collection<int, Commenter>
      */
     public function getSubscribers(): Collection
