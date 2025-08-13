@@ -8,6 +8,7 @@ use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Renderless;
+use Livewire\Attributes\On;
 
 trait HasSidebar
 {
@@ -85,6 +86,13 @@ trait HasSidebar
                 ->send();
         }
 
+        unset($this->isSubscribed);
+        unset($this->subscribers);
+    }
+
+    #[On('commentions:subscription:toggled')]
+    public function handleExternalSubscriptionToggle(): void
+    {
         unset($this->isSubscribed);
         unset($this->subscribers);
     }
