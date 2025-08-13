@@ -94,5 +94,3 @@ trait HasSidebar
         return Config::resolveAuthenticatedUser();
     }
 }
-
-

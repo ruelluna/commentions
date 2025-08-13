@@ -23,5 +23,3 @@ class SubscriptionSidebar extends Component
         return view('commentions::subscription-sidebar');
     }
 }
-
-

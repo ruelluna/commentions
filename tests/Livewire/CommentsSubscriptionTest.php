@@ -55,14 +55,14 @@ test('isSubscribed and subscribers computed properties reflect DB state', functi
     livewire(Comments::class, [
         'record' => $post,
     ])->assertSet('isSubscribed', false)
-      ->assertSet('subscribers', fn ($subscribers) => $subscribers instanceof \Illuminate\Support\Collection && $subscribers->isEmpty());
+        ->assertSet('subscribers', fn ($subscribers) => $subscribers instanceof \Illuminate\Support\Collection && $subscribers->isEmpty());
 
     $post->subscribe($user);
 
     livewire(Comments::class, [
         'record' => $post,
     ])->assertSet('isSubscribed', true)
-      ->assertSet('subscribers', fn ($subscribers) => $subscribers->contains('id', $user->id));
+        ->assertSet('subscribers', fn ($subscribers) => $subscribers->contains('id', $user->id));
 });
 
 test('toggleSubscription subscribes and unsubscribes the current user', function () {
@@ -78,7 +78,7 @@ test('toggleSubscription subscribes and unsubscribes the current user', function
     livewire(Comments::class, [
         'record' => $post,
     ])->call('toggleSubscription')
-      ->assertSet('isSubscribed', true);
+        ->assertSet('isSubscribed', true);
 
     expect(CommentSubscription::query()->where([
         'subscribable_type' => $post->getMorphClass(),
@@ -90,7 +90,7 @@ test('toggleSubscription subscribes and unsubscribes the current user', function
     livewire(Comments::class, [
         'record' => $post,
     ])->call('toggleSubscription')
-      ->assertSet('isSubscribed', false);
+        ->assertSet('isSubscribed', false);
 
     expect(CommentSubscription::query()->where([
         'subscribable_type' => $post->getMorphClass(),
@@ -113,5 +113,3 @@ test('showSubscribers defaults to config when not provided', function () {
         'record' => $post,
     ])->assertSet('showSubscribers', false);
 });
-
-

@@ -2,10 +2,10 @@
 
 namespace Kirschbaum\Commentions\Filament\Concerns;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
-use Closure;
 
 trait HasSidebar
 {
@@ -60,6 +60,48 @@ trait HasSidebar
         return $this->showSubscribers;
     }
 
+    public function subscribeLabel(Closure|string $label): static
+    {
+        $this->subscribeLabelOverride = $label;
+
+        return $this;
+    }
+
+    public function unsubscribeLabel(Closure|string $label): static
+    {
+        $this->unsubscribeLabelOverride = $label;
+
+        return $this;
+    }
+
+    public function subscribeIcon(Closure|string $icon): static
+    {
+        $this->subscribeIconOverride = $icon;
+
+        return $this;
+    }
+
+    public function unsubscribeIcon(Closure|string $icon): static
+    {
+        $this->unsubscribeIconOverride = $icon;
+
+        return $this;
+    }
+
+    public function subscribeColor(Closure|string $color, string $context = 'action'): static
+    {
+        $this->subscriptionColorOverrides[$context]['subscribe'] = $color;
+
+        return $this;
+    }
+
+    public function unsubscribeColor(Closure|string $color, string $context = 'action'): static
+    {
+        $this->subscriptionColorOverrides[$context]['unsubscribe'] = $color;
+
+        return $this;
+    }
+
     protected function resolveCurrentUser(): ?Commenter
     {
         return Config::resolveAuthenticatedUser();
@@ -110,50 +152,8 @@ trait HasSidebar
         return $this->evaluateSubscriptionOverride($this->subscriptionColorOverrides[$context]['subscribe'] ?? null, $record) ?? ($context === 'table' ? 'primary' : 'gray');
     }
 
-    public function subscribeLabel(Closure|string $label): static
-    {
-        $this->subscribeLabelOverride = $label;
-
-        return $this;
-    }
-
-    public function unsubscribeLabel(Closure|string $label): static
-    {
-        $this->unsubscribeLabelOverride = $label;
-
-        return $this;
-    }
-
-    public function subscribeIcon(Closure|string $icon): static
-    {
-        $this->subscribeIconOverride = $icon;
-
-        return $this;
-    }
-
-    public function unsubscribeIcon(Closure|string $icon): static
-    {
-        $this->unsubscribeIconOverride = $icon;
-
-        return $this;
-    }
-
-    public function subscribeColor(Closure|string $color, string $context = 'action'): static
-    {
-        $this->subscriptionColorOverrides[$context]['subscribe'] = $color;
-
-        return $this;
-    }
-
-    public function unsubscribeColor(Closure|string $color, string $context = 'action'): static
-    {
-        $this->subscriptionColorOverrides[$context]['unsubscribe'] = $color;
-
-        return $this;
-    }
-
     /**
-     * @param (Closure(Model): string)|string|null $override
+     * @param  (Closure(Model): string)|string|null  $override
      */
     protected function evaluateSubscriptionOverride(Closure|string|null $override, Model $record): ?string
     {
@@ -164,10 +164,6 @@ trait HasSidebar
         return $override;
     }
 
-    /**
-     *
-     * @return bool|null
-     */
     protected function toggleSubscriptionForRecord(Model $record): ?bool
     {
         $user = $this->resolveCurrentUser();
