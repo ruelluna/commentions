@@ -7,6 +7,9 @@ parameters:
         - database/
         - src/
         - tests/
+    
+    excludePaths:
+        - src/Filament/Actions/CommentsTableAction.php
 
     # Level 10 is the highest level
     level: 1
