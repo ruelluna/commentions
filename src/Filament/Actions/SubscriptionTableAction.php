@@ -30,11 +30,6 @@ class SubscriptionTableAction extends Action
                 );
 
                 $this->success();
-
-                // Ask any listening components (like the sidebar) to refresh
-                /** @var \Livewire\Component|null $livewire */
-                $livewire = $this->getLivewire();
-                $livewire?->dispatch('commentions:subscription:toggled')->to('commentions::subscription-sidebar');
             })
             ->requiresConfirmation(false);
     }
