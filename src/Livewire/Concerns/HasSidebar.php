@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 
 trait HasSidebar
@@ -62,6 +61,13 @@ trait HasSidebar
     }
 
     #[Renderless]
+    public function refreshSubscribers(): void
+    {
+        unset($this->isSubscribed);
+        unset($this->subscribers);
+    }
+
+    #[Renderless]
     public function toggleSubscription(): void
     {
         $user = $this->getCurrentUser();
@@ -86,15 +92,9 @@ trait HasSidebar
                 ->send();
         }
 
-        unset($this->isSubscribed);
-        unset($this->subscribers);
-    }
+        $this->refreshSubscribers();
 
-    #[On('commentions:subscription:toggled')]
-    public function handleExternalSubscriptionToggle(): void
-    {
-        unset($this->isSubscribed);
-        unset($this->subscribers);
+        $this->dispatch('commentions:subscription:toggled')->to('commentions::subscription-sidebar');
     }
 
     protected function getCurrentUser(): ?Commenter

@@ -4,6 +4,7 @@ namespace Kirschbaum\Commentions\Livewire;
 
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\Commentions\Livewire\Concerns\HasSidebar;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SubscriptionSidebar extends Component
@@ -16,6 +17,12 @@ class SubscriptionSidebar extends Component
     {
         $this->record = $record;
         $this->mountHasSidebar(true, $showSubscribers);
+    }
+
+    #[On('commentions:subscription:toggled')]
+    public function handleExternalSubscriptionToggle(): void
+    {
+        $this->refreshSubscribers();
     }
 
     public function render()
