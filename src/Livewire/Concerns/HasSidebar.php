@@ -7,8 +7,8 @@ use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Renderless;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 
 trait HasSidebar
 {
