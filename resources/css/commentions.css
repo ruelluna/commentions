@@ -17,13 +17,13 @@
 .tiptap p.is-editor-empty::before {
     color: #adb5bd;
     content: attr(data-placeholder);
-    float: left;
+    float: inline-start;
     height: 0;
     pointer-events: none;
 }
 
 .tiptap .mention {
-    @apply comm:bg-gray-200 comm:rounded comm:px-1 comm:py-0.5 comm:font-bold comm:text-blue-500;
+    @apply comm:inline-block comm:bg-gray-200 comm:rounded comm:px-1 comm:py-0.5 comm:font-bold comm:text-blue-500;
 }
 
 .mention-suggestion {
