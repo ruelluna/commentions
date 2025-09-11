@@ -540,7 +540,7 @@ Sometimes you might want to render non-Comments in the list of comments. For exa
 ```php
 use Kirschbaum\Commentions\RenderableComment;
 
-public function getComments(): Collection
+public function getComments(?int $limit = null): Collection
 {
     $statusHistory = $this->statusHistory()->get()->map(fn (StatusHistory $statusHistory) => new RenderableComment(
         id: $statusHistory->id,
@@ -551,7 +551,13 @@ public function getComments(): Collection
 
     $comments = $this->comments()->latest()->with('author')->get();
 
-    return $statusHistory->merge($comments);
+    $mergedCollection = $statusHistory->merge($comments);
+
+    if ($limit) {
+        return $mergedCollection->take($limit);
+    }
+
+    return $mergedCollection;
 }
 ```
 
