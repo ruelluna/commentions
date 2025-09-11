@@ -12,6 +12,7 @@ jobs:
       php: 8.4
       laravel: 12
       testbench: 10
+      filament: 4
       larastan: 3
       pint: 1
 
@@ -57,6 +58,7 @@ jobs:
       php: 8.4
       laravel: 12
       testbench: 10
+      filament: 4
       larastan: 3
       pint: 1
 
@@ -108,10 +110,12 @@ jobs:
         include:
           - laravel: 11
             testbench: 9
+            filament: 4
             larastan: 3
             pint: 1
           - laravel: 12
             testbench: 10
+            filament: 4
             larastan: 3
             pint: 1
 
