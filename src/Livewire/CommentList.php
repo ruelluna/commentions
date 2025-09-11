@@ -27,13 +27,11 @@ class CommentList extends Component
     #[Computed]
     public function comments(): Collection
     {
-        $query = $this->record->commentsQuery();
-
         if (! $this->paginate) {
-            return $query->get();
+            return $this->record->getComments();
         }
 
-        return $query->limit($this->perPage)->get();
+        return $this->record->getComments()->take($this->perPage);
     }
 
     #[On('comment:saved')]
