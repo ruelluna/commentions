@@ -26,8 +26,12 @@ trait HasComments
         return SaveComment::run($this, $author, $body);
     }
 
-    public function getComments(): Collection
+    public function getComments(?int $limit = null): Collection
     {
+        if ($limit) {
+            return $this->commentsQuery()->limit($limit)->get();
+        }
+
         return $this->commentsQuery()->get();
     }
 

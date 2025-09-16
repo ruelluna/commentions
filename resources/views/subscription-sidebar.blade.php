@@ -18,13 +18,15 @@
                     wire:loading.attr="disabled"
                     color="gray"
                     size="xs"
-                    class="comm:w-full comm:mb-2"
+                    class="comm:w-full comm:mb-2 comm:inline-flex comm:items-center comm:whitespace-nowrap"
                 >
-                    <x-filament::icon
-                        icon="heroicon-s-bell-slash"
-                        class="comm:w-3 comm:h-3 comm:mr-1"
-                    />
-                    Unsubscribe
+                    <span class="comm:inline-flex comm:items-center comm:gap-1 comm:whitespace-nowrap">
+                        <x-filament::icon
+                            icon="heroicon-s-bell-slash"
+                            class="comm:w-3 comm:h-3 comm:flex-shrink-0"
+                        />
+                        <span>Unsubscribe</span>
+                    </span>
                 </x-filament::button>
             @else
                 <x-filament::button
@@ -33,13 +35,15 @@
                     wire:loading.attr="disabled"
                     color="gray"
                     size="xs"
-                    class="comm:w-full comm:mb-2"
+                    class="comm:w-full comm:mb-2 comm:inline-flex comm:items-center comm:whitespace-nowrap"
                 >
-                    <x-filament::icon
-                        icon="heroicon-o-bell"
-                        class="comm:w-3 comm:h-3 comm:mr-1"
-                    />
-                    Subscribe
+                    <span class="comm:inline-flex comm:items-center comm:gap-1 comm:whitespace-nowrap">
+                        <x-filament::icon
+                            icon="heroicon-o-bell"
+                            class="comm:w-3 comm:h-3 comm:flex-shrink-0"
+                        />
+                        <span>Subscribe</span>
+                    </span>
                 </x-filament::button>
             @endif
 

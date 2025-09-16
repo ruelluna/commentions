@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\FilamentServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
@@ -26,10 +28,12 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            LivewireServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
             CommentionsServiceProvider::class,
             FilamentServiceProvider::class,
             SupportServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
