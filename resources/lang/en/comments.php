@@ -18,4 +18,10 @@ return [
     'save' => 'Save',
     'comment' => 'Comment',
     'add_reaction' => 'Add Reaction',
+
+    'notifications' => 'Notifications',
+    'unsubscribe' => 'Unsubscribe',
+    'subscribe' => 'Subscribe',
+    'subscribers' => 'Subscribers',
+    'more' => 'more',
 ];
