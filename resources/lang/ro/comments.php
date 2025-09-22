@@ -19,7 +19,6 @@ return [
     'comment' => 'Comentariu',
     'add_reaction' => 'Adaugă reacție',
 
-
     'notifications' => 'Notificări',
     'unsubscribe' => 'Dezabonare',
     'subscribe' => 'Abonare',
