@@ -4,8 +4,6 @@ namespace Kirschbaum\Commentions\Actions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
@@ -18,7 +16,7 @@ class SaveComment
     /**
      * @throws AuthorizationException
      */
-    public function __invoke(Model $commentable, Commenter $author, string $body, ?Collection $attachments = null): Comment
+    public function __invoke(Model $commentable, Commenter $author, string $body): Comment
     {
         if ($author->cannot('create', Config::getCommentModel())) {
             throw new AuthorizationException('Cannot create comment');
@@ -30,36 +28,12 @@ class SaveComment
             'author_type' => $author->getMorphClass(),
         ]);
 
-        // Handle file attachments
-        if ($attachments && $attachments->isNotEmpty()) {
-            $this->handleAttachments($comment, $attachments);
-        }
 
         $this->dispatchEvents($comment);
 
         return $comment;
     }
 
-    protected function handleAttachments(Comment $comment, Collection $attachments): void
-    {
-        $attachments->each(function ($attachment) use ($comment) {
-            if (is_string($attachment)) {
-                // Filament FileUpload stores files as strings (paths)
-                CommentAttachment::create([
-                    'comment_id' => $comment->id,
-                    'filename' => basename($attachment),
-                    'original_name' => basename($attachment),
-                    'file_path' => $attachment,
-                    'file_size' => 0, // Will be updated if needed
-                    'mime_type' => 'application/octet-stream',
-                    'disk' => config('commentions.uploads.disk', 'local'),
-                    'metadata' => [
-                        'uploaded_at' => now()->toISOString(),
-                    ],
-                ]);
-            }
-        });
-    }
 
     protected function dispatchEvents(Comment $comment): void
     {

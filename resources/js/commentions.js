@@ -3,6 +3,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Mention from '@tiptap/extension-mention'
 import Placeholder from '@tiptap/extension-placeholder'
 import suggestion from './suggestion'
+import { setupImageUpload } from './image-upload'
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('editor', (content, mentions, component) => {
@@ -57,6 +58,9 @@ document.addEventListener('alpine:init', () => {
                 Livewire.on(`${component}:content:cleared`, () => {
                     editor.commands.setContent('');
                 });
+                
+                // Setup image upload functionality
+                setupImageUpload(editor);
             },
 
             isLoaded() {

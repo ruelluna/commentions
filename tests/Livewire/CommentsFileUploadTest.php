@@ -29,7 +29,7 @@ it('can upload files with a comment', function () {
         ->call('save');
 
     $comment = $post->comments()->latest()->first();
-    
+
     expect($comment->body)->toBe('This is a test comment with files');
     expect($comment->attachments)->toHaveCount(2);
     expect($comment->attachments->first()->file_path)->toBe('commentions/attachments/document.pdf');
@@ -107,7 +107,7 @@ it('stores files in correct directory structure', function () {
         ->call('save');
 
     $attachment = $post->comments()->latest()->first()->attachments()->first();
-    
+
     expect($attachment->file_path)->toBe('commentions/attachments/document.pdf');
     expect($attachment->filename)->toBe('document.pdf');
 });

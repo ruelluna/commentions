@@ -15,7 +15,7 @@ class HandleFileUpload
         // The file path is already set by Filament's FileUpload component
         $filePath = $file->getPathname();
         $filename = basename($filePath);
-        
+
         return CommentAttachment::create([
             'filename' => $filename,
             'original_name' => $file->getClientOriginalName(),

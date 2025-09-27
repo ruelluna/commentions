@@ -12,12 +12,7 @@
                     </div>
                 </div>
 
-                {{-- File Upload Area --}}
-                <template x-if="wasFocused">
-                    <div class="comm:mt-2">
-                        {{ $this->getFileUploadComponent() }}
-                    </div>
-                </template>
+                {{-- Image Upload is now integrated into the TipTap editor --}}
 
                 <template x-if="wasFocused">
                     <div>
