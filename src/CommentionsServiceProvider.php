@@ -8,8 +8,10 @@ use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Kirschbaum\Commentions\Comment as CommentModel;
+use Kirschbaum\Commentions\CommentAttachment;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 use Kirschbaum\Commentions\Listeners\SendUserMentionedNotification;
+use Kirschbaum\Commentions\Policies\CommentAttachmentPolicy;
 use Kirschbaum\Commentions\Livewire\Comment;
 use Kirschbaum\Commentions\Livewire\CommentList;
 use Kirschbaum\Commentions\Livewire\Comments;
@@ -39,6 +41,7 @@ class CommentionsServiceProvider extends PackageServiceProvider
                 'create_commentions_tables',
                 'create_commentions_reactions_table',
                 'create_commentions_subscriptions_table',
+                'create_commentions_attachments_table',
             ]);
     }
 
@@ -65,6 +68,7 @@ class CommentionsServiceProvider extends PackageServiceProvider
         );
 
         Gate::policy(CommentModel::class, config('commentions.comment.policy'));
+        Gate::policy(CommentAttachment::class, config('commentions.attachment.policy'));
 
         // Allow publishing of translation files with a custom tag
         $this->publishes([

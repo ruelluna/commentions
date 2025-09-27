@@ -4,6 +4,8 @@ namespace Kirschbaum\Commentions\Actions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
@@ -16,7 +18,7 @@ class SaveComment
     /**
      * @throws AuthorizationException
      */
-    public function __invoke(Model $commentable, Commenter $author, string $body): Comment
+    public function __invoke(Model $commentable, Commenter $author, string $body, ?Collection $attachments = null): Comment
     {
         if ($author->cannot('create', Config::getCommentModel())) {
             throw new AuthorizationException('Cannot create comment');
@@ -28,9 +30,26 @@ class SaveComment
             'author_type' => $author->getMorphClass(),
         ]);
 
+        // Handle file attachments
+        if ($attachments && $attachments->isNotEmpty()) {
+            $this->handleAttachments($comment, $attachments);
+        }
+
         $this->dispatchEvents($comment);
 
         return $comment;
+    }
+
+    protected function handleAttachments(Comment $comment, Collection $attachments): void
+    {
+        $handleFileUpload = new HandleFileUpload();
+
+        $attachments->each(function ($attachment) use ($comment, $handleFileUpload) {
+            if ($attachment instanceof UploadedFile) {
+                $commentAttachment = $handleFileUpload($attachment);
+                $commentAttachment->update(['comment_id' => $comment->id]);
+            }
+        });
     }
 
     protected function dispatchEvents(Comment $comment): void

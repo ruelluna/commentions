@@ -3,6 +3,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Mention from '@tiptap/extension-mention'
 import Placeholder from '@tiptap/extension-placeholder'
 import suggestion from './suggestion'
+import './file-upload'
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('editor', (content, mentions, component) => {

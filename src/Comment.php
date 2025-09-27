@@ -164,6 +164,11 @@ class Comment extends Model implements RenderableComment
         return $this->hasMany(CommentReaction::class);
     }
 
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(CommentAttachment::class);
+    }
+
     public function toggleReaction(string $reaction): void
     {
         ToggleCommentReaction::run($this, $reaction, Config::resolveAuthenticatedUser());

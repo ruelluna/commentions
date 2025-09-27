@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create(config('commentions.tables.attachments', 'comment_attachments'), function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('comment_id')->constrained(config('commentions.tables.comments', 'comments'))->onDelete('cascade');
+            $table->string('filename');
+            $table->string('original_name');
+            $table->string('file_path');
+            $table->bigInteger('file_size');
+            $table->string('mime_type');
+            $table->string('disk')->default('local');
+            $table->json('metadata')->nullable();
+            $table->timestamps();
+
+            $table->index(['comment_id', 'created_at']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists(config('commentions.tables.attachments', 'comment_attachments'));
+    }
+};

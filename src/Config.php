@@ -69,6 +69,11 @@ class Config
         return config('commentions.commenter.model');
     }
 
+    public static function getAttachmentModel(): string
+    {
+        return config('commentions.attachment.model', CommentAttachment::class);
+    }
+
     public static function getAllowedReactions(): array
     {
         return config('commentions.reactions.allowed', ['👍']);
