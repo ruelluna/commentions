@@ -42,12 +42,21 @@ class SaveComment
 
     protected function handleAttachments(Comment $comment, Collection $attachments): void
     {
-        $handleFileUpload = new HandleFileUpload();
-
-        $attachments->each(function ($attachment) use ($comment, $handleFileUpload) {
-            if ($attachment instanceof UploadedFile) {
-                $commentAttachment = $handleFileUpload($attachment);
-                $commentAttachment->update(['comment_id' => $comment->id]);
+        $attachments->each(function ($attachment) use ($comment) {
+            if (is_string($attachment)) {
+                // Filament FileUpload stores files as strings (paths)
+                CommentAttachment::create([
+                    'comment_id' => $comment->id,
+                    'filename' => basename($attachment),
+                    'original_name' => basename($attachment),
+                    'file_path' => $attachment,
+                    'file_size' => 0, // Will be updated if needed
+                    'mime_type' => 'application/octet-stream',
+                    'disk' => config('commentions.uploads.disk', 'local'),
+                    'metadata' => [
+                        'uploaded_at' => now()->toISOString(),
+                    ],
+                ]);
             }
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Kirschbaum\Commentions\Livewire;
 
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -31,10 +32,32 @@ class Comments extends Component
 
     public $attachments = [];
 
-    protected $rules = [
-        'commentBody' => 'required|string',
-        'attachments' => [new FileUploadRule()],
-    ];
+    protected function rules(): array
+    {
+        return [
+            'commentBody' => 'required|string',
+            'attachments' => [new FileUploadRule()],
+        ];
+    }
+
+    public function getFileUploadComponent(): FileUpload
+    {
+        return FileUpload::make('attachments')
+            ->label('Attachments')
+            ->multiple()
+            ->maxFiles(config('commentions.uploads.max_files', 5))
+            ->maxSize(config('commentions.uploads.max_file_size', 10240))
+            ->acceptedFileTypes(config('commentions.uploads.allowed_types', ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'txt', 'zip']))
+            ->disk(config('commentions.uploads.disk', 'local'))
+            ->directory(config('commentions.uploads.path', 'commentions/attachments'))
+            ->visibility('private')
+            ->storeFileNamesIn('original_names')
+            ->reorderable()
+            ->appendFiles()
+            ->previewable()
+            ->downloadable()
+            ->openable();
+    }
 
     #[Renderless]
     public function save()

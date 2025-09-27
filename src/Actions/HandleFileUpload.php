@@ -11,20 +11,15 @@ class HandleFileUpload
 {
     public function __invoke(UploadedFile $file, string $disk = 'local'): CommentAttachment
     {
-        $filename = $this->generateFilename($file);
-        $path = $this->generatePath($filename);
-
-        // Store the file
-        $storedPath = $file->storeAs(
-            dirname($path),
-            basename($path),
-            $disk
-        );
-
+        // For Filament FileUpload, the file is already stored, so we just need to create the record
+        // The file path is already set by Filament's FileUpload component
+        $filePath = $file->getPathname();
+        $filename = basename($filePath);
+        
         return CommentAttachment::create([
             'filename' => $filename,
             'original_name' => $file->getClientOriginalName(),
-            'file_path' => $storedPath,
+            'file_path' => $filePath,
             'file_size' => $file->getSize(),
             'mime_type' => $file->getMimeType(),
             'disk' => $disk,
