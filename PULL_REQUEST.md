@@ -18,9 +18,9 @@ This PR adds comprehensive file upload functionality to the commentions package,
 - **SaveComment Enhancement**: Now handles file attachments
 
 ### 🎨 **Frontend Integration**
-- **Livewire Component**: Enhanced Comments component with file upload support
-- **JavaScript**: Alpine.js integration with drag & drop functionality
-- **Blade Templates**: Updated UI with file upload area and preview
+- **Livewire Component**: Enhanced Comments component with Filament FileUpload integration
+- **Filament FileUpload**: Native Filament component with drag & drop, preview, and validation
+- **Blade Templates**: Updated UI with Filament's FileUpload component
 - **File Display**: Clean attachment display in comments
 
 ### ⚙️ **Configuration & Security**
@@ -39,11 +39,11 @@ This PR adds comprehensive file upload functionality to the commentions package,
 ## 🎯 **Key Features**
 
 ### **User Experience**
-- ✅ **Drag & Drop**: Users can drag files directly into the comment area
-- ✅ **File Preview**: Real-time preview of selected files before upload
+- ✅ **Drag & Drop**: Native Filament FileUpload with drag & drop support
+- ✅ **File Preview**: Built-in Filament preview functionality
 - ✅ **Multiple Files**: Support for multiple file selection (configurable limit)
-- ✅ **File Management**: Easy removal of files before submission
-- ✅ **Visual Feedback**: Drag states and file type indicators
+- ✅ **File Management**: Easy removal and reordering of files
+- ✅ **Visual Feedback**: Consistent Filament styling and interactions
 
 ### **Security & Validation**
 - ✅ **File Type Validation**: Whitelist-based file type checking
@@ -53,6 +53,7 @@ This PR adds comprehensive file upload functionality to the commentions package,
 - ✅ **Auto Cleanup**: Files deleted when comments are deleted
 
 ### **Developer Experience**
+- ✅ **Filament Integration**: Native Filament FileUpload component
 - ✅ **Configuration**: Easy setup via environment variables
 - ✅ **Testing**: Comprehensive test coverage
 - ✅ **Documentation**: Complete setup guide
@@ -66,7 +67,6 @@ src/CommentAttachment.php
 src/Actions/HandleFileUpload.php
 src/Rules/FileUploadRule.php
 src/Policies/CommentAttachmentPolicy.php
-resources/js/file-upload.js
 resources/views/components/file-attachment.blade.php
 database/migrations/create_commentions_attachments_table.php.stub
 tests/Models/CommentAttachmentTest.php
