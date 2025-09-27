@@ -2,8 +2,8 @@ import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Mention from '@tiptap/extension-mention'
 import Placeholder from '@tiptap/extension-placeholder'
+import { ImageUpload } from './image-upload'
 import suggestion from './suggestion'
-import './file-upload'
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('editor', (content, mentions, component) => {
@@ -19,6 +19,7 @@ document.addEventListener('alpine:init', () => {
                     element: this.$refs.element,
                     extensions: [
                         StarterKit,
+                        ImageUpload,
                         Mention.configure({
                             HTMLAttributes: {
                                 class: 'mention',

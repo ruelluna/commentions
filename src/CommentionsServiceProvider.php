@@ -7,6 +7,8 @@ use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Kirschbaum\Commentions\Comment as CommentModel;
 use Kirschbaum\Commentions\CommentAttachment;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
@@ -79,5 +81,34 @@ class CommentionsServiceProvider extends PackageServiceProvider
             $listenerClass = (string) config('commentions.notifications.mentions.listener', SendUserMentionedNotification::class);
             Event::listen(UserWasMentionedEvent::class, $listenerClass);
         }
+
+        // Add image upload route
+        Route::post('/commentions/upload-image', function () {
+            $request = request();
+            
+            if (!$request->hasFile('image')) {
+                return response()->json(['error' => 'No image file provided'], 400);
+            }
+
+            $file = $request->file('image');
+            
+            // Validate file type
+            if (!$file->isValid() || !in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+                return response()->json(['error' => 'Invalid file type'], 400);
+            }
+
+            // Validate file size (5MB max)
+            if ($file->getSize() > 5 * 1024 * 1024) {
+                return response()->json(['error' => 'File too large'], 400);
+            }
+
+            // Store the file
+            $path = $file->store('commentions/images', config('commentions.uploads.disk', 'public'));
+            
+            // Get the URL
+            $url = Storage::disk(config('commentions.uploads.disk', 'public'))->url($path);
+
+            return response()->json(['url' => $url]);
+        })->name('commentions.upload-image');
     }
 }
