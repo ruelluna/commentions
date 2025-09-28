@@ -7,7 +7,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Kirschbaum\Commentions\Comment;
-use Kirschbaum\Commentions\CommentAttachment;
 use Kirschbaum\Commentions\Events\UserIsSubscribedToCommentableEvent;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 use Tests\Models\Post;
@@ -125,79 +124,3 @@ test('it can get mentioned user ids from comment', function () {
         ->toContain($mentionedUser2);
 });
 
-test('it can have attachments', function () {
-    Storage::fake('local');
-
-    $user = User::factory()->create();
-    $post = Post::factory()->create();
-    $comment = $post->comment('This is a test comment', $user);
-
-    $attachment = CommentAttachment::create([
-        'comment_id' => $comment->id,
-        'filename' => 'test.pdf',
-        'original_name' => 'test.pdf',
-        'file_path' => 'commentions/attachments/2024/01/test.pdf',
-        'file_size' => 1000,
-        'mime_type' => 'application/pdf',
-        'disk' => 'local',
-    ]);
-
-    expect($comment->attachments)->toHaveCount(1);
-    expect($comment->attachments->first())->toBeInstanceOf(CommentAttachment::class);
-    expect($comment->attachments->first()->original_name)->toBe('test.pdf');
-});
-
-test('it can have multiple attachments', function () {
-    Storage::fake('local');
-
-    $user = User::factory()->create();
-    $post = Post::factory()->create();
-    $comment = $post->comment('This is a test comment', $user);
-
-    $attachment1 = CommentAttachment::create([
-        'comment_id' => $comment->id,
-        'filename' => 'test1.pdf',
-        'original_name' => 'test1.pdf',
-        'file_path' => 'commentions/attachments/2024/01/test1.pdf',
-        'file_size' => 1000,
-        'mime_type' => 'application/pdf',
-        'disk' => 'local',
-    ]);
-
-    $attachment2 = CommentAttachment::create([
-        'comment_id' => $comment->id,
-        'filename' => 'test2.jpg',
-        'original_name' => 'test2.jpg',
-        'file_path' => 'commentions/attachments/2024/01/test2.jpg',
-        'file_size' => 2000,
-        'mime_type' => 'image/jpeg',
-        'disk' => 'local',
-    ]);
-
-    expect($comment->attachments)->toHaveCount(2);
-    expect($comment->attachments->pluck('original_name'))->toContain('test1.pdf', 'test2.jpg');
-});
-
-test('attachments are deleted when comment is deleted', function () {
-    Storage::fake('local');
-
-    $user = User::factory()->create();
-    $post = Post::factory()->create();
-    $comment = $post->comment('This is a test comment', $user);
-
-    $attachment = CommentAttachment::create([
-        'comment_id' => $comment->id,
-        'filename' => 'test.pdf',
-        'original_name' => 'test.pdf',
-        'file_path' => 'commentions/attachments/2024/01/test.pdf',
-        'file_size' => 1000,
-        'mime_type' => 'application/pdf',
-        'disk' => 'local',
-    ]);
-
-    expect($comment->attachments)->toHaveCount(1);
-
-    $comment->delete();
-
-    expect(CommentAttachment::count())->toBe(0);
-});

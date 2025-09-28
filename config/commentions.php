@@ -34,16 +34,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Comment Attachment model configuration
-    |--------------------------------------------------------------------------
-    */
-    'attachment' => [
-        'model' => \Kirschbaum\Commentions\CommentAttachment::class,
-        'policy' => \Kirschbaum\Commentions\Policies\CommentAttachmentPolicy::class,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Reactions
     |--------------------------------------------------------------------------
     */

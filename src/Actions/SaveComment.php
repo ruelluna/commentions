@@ -5,7 +5,6 @@ namespace Kirschbaum\Commentions\Actions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Events\CommentWasCreatedEvent;
@@ -94,4 +93,5 @@ class SaveComment
     {
         return (new static())(...$args);
     }
+
 }

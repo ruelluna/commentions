@@ -35,6 +35,8 @@ class CommentList extends Component
     #[On('comment:deleted')]
     public function reloadComments(): void
     {
+        // Small delay to ensure database transaction is complete
+        usleep(100000); // 100ms delay
         unset($this->comments);
     }
 }

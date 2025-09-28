@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Kirschbaum\Commentions\Comment as CommentModel;
-use Kirschbaum\Commentions\CommentAttachment;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 use Kirschbaum\Commentions\Listeners\SendUserMentionedNotification;
-use Kirschbaum\Commentions\Policies\CommentAttachmentPolicy;
 use Kirschbaum\Commentions\Livewire\Comment;
 use Kirschbaum\Commentions\Livewire\CommentList;
 use Kirschbaum\Commentions\Livewire\Comments;
@@ -43,7 +41,6 @@ class CommentionsServiceProvider extends PackageServiceProvider
                 'create_commentions_tables',
                 'create_commentions_reactions_table',
                 'create_commentions_subscriptions_table',
-                'create_commentions_attachments_table',
             ]);
     }
 
@@ -70,7 +67,6 @@ class CommentionsServiceProvider extends PackageServiceProvider
         );
 
         Gate::policy(CommentModel::class, config('commentions.comment.policy'));
-        Gate::policy(CommentAttachment::class, config('commentions.attachment.policy'));
 
         // Allow publishing of translation files with a custom tag
         $this->publishes([
@@ -85,15 +81,15 @@ class CommentionsServiceProvider extends PackageServiceProvider
         // Add image upload route
         Route::post('/commentions/upload-image', function () {
             $request = request();
-            
-            if (!$request->hasFile('image')) {
+
+            if (! $request->hasFile('image')) {
                 return response()->json(['error' => 'No image file provided'], 400);
             }
 
             $file = $request->file('image');
-            
+
             // Validate file type
-            if (!$file->isValid() || !in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+            if (! $file->isValid() || ! in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
                 return response()->json(['error' => 'Invalid file type'], 400);
             }
 
@@ -104,7 +100,7 @@ class CommentionsServiceProvider extends PackageServiceProvider
 
             // Store the file
             $path = $file->store('commentions/images', config('commentions.uploads.disk', 'public'));
-            
+
             // Get the URL
             $url = Storage::disk(config('commentions.uploads.disk', 'public'))->url($path);
 

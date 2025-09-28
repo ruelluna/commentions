@@ -61,14 +61,14 @@ export const ImageUpload = Node.create({
                         if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length) {
                             const files = Array.from(event.dataTransfer.files)
                             const images = files.filter(file => file.type.startsWith('image/'))
-                            
+
                             if (images.length > 0) {
                                 event.preventDefault()
-                                
+
                                 images.forEach(file => {
                                     this.uploadImage(file, view)
                                 })
-                                
+
                                 return true
                             }
                         }
@@ -77,17 +77,17 @@ export const ImageUpload = Node.create({
                     handlePaste: (view, event, slice) => {
                         const items = Array.from(event.clipboardData?.items || [])
                         const images = items.filter(item => item.type.startsWith('image/'))
-                        
+
                         if (images.length > 0) {
                             event.preventDefault()
-                            
+
                             images.forEach(item => {
                                 const file = item.getAsFile()
                                 if (file) {
                                     this.uploadImage(file, view)
                                 }
                             })
-                            
+
                             return true
                         }
                         return false
@@ -100,22 +100,22 @@ export const ImageUpload = Node.create({
     uploadImage(file, view) {
         const { state, dispatch } = view
         const { tr } = state
-        
+
         // Insert a placeholder image
         const placeholder = this.editor.schema.nodes.imageUpload.create({
             src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvYWRpbmcuLi48L3RleHQ+PC9zdmc+',
             alt: 'Uploading...',
         })
-        
+
         const pos = tr.selection.from
         tr.insert(pos, placeholder)
         dispatch(tr)
-        
+
         // Upload the file
         this.uploadFile(file).then(url => {
             const { state, dispatch } = view
             const { tr } = state
-            
+
             // Find and replace the placeholder
             state.doc.descendants((node, pos) => {
                 if (node.type.name === 'imageUpload' && node.attrs.src.includes('data:image/svg+xml')) {
@@ -126,20 +126,20 @@ export const ImageUpload = Node.create({
                     })
                 }
             })
-            
+
             dispatch(tr)
         }).catch(error => {
             console.error('Upload failed:', error)
             // Remove the placeholder on error
             const { state, dispatch } = view
             const { tr } = state
-            
+
             state.doc.descendants((node, pos) => {
                 if (node.type.name === 'imageUpload' && node.attrs.src.includes('data:image/svg+xml')) {
                     tr.delete(pos, pos + node.nodeSize)
                 }
             })
-            
+
             dispatch(tr)
         })
     },
