@@ -103,9 +103,9 @@ export const ImageUpload = Node.create({
 
         // Insert a placeholder image
         const placeholder = this.editor.schema.nodes.imageUpload.create({
-            src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2IiBzdHJva2U9IiNlNWU3ZWIiIHN0cm9rZS13aWR0aD0iMiIgcng9IjgiLz48Y2lyY2xlIGN4PSI1MCUiIGN5PSI0MCUiIHI9IjIwIiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjMiLz48cGF0aCBkPSJtNDAlNDAgbDEwIDEwIG0wLTEwIGwtMTAgMTAiIHN0cm9rZT0iIzM3NDE1MSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48dGV4dCB4PSI1MCUiIHk9IjcwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjY2NjY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5VcGxvYWRpbmcuLi48L3RleHQ+PC9zdmc+',
+            src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmOGZhZmMiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMWY1ZjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2cpIiBzdHJva2U9IiNlNWU3ZWIiIHN0cm9rZS13aWR0aD0iMiIgcng9IjEyIi8+PGNpcmNsZSBjeD0iNTAlIiBjeT0iNDAlIiByPSIyNCIgZmlsbD0iIzM3NDE1MSIgb3BhY2l0eT0iMC4xIi8+PHBhdGggZD0ibTQwIDQwIGwxMiAxMiBtMC0xMiBsLTEyIDEyIiBzdHJva2U9IiMzNzQxNTEiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iNTAlIiBjeT0iNDAlIiByPSI4IiBmaWxsPSIjMzc0MTUxIiBvcGFjaXR5PSIwLjMiLz48dGV4dCB4PSI1MCUiIHk9Ijc1JSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNjY2NjY2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNTAwIj5VcGxvYWRpbmcuLi48L3RleHQ+PC9zdmc+',
             alt: 'Uploading...',
-            style: 'display: block; margin: 0 auto; max-width: 300px; height: 200px; object-fit: contain;',
+            style: 'display: block; margin: 20px auto; max-width: 400px; height: 200px; object-fit: contain; border-radius: 12px;',
         })
 
         const pos = tr.selection.from

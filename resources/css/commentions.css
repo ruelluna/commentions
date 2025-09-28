@@ -47,9 +47,22 @@
 
 /* Image upload styling */
 .tiptap img {
-    @apply comm:max-w-full comm:h-auto comm:rounded-lg comm:block comm:mx-auto comm:my-2;
+    @apply comm:max-w-full comm:h-auto comm:rounded-lg comm:block comm:mx-auto comm:my-4;
+    max-height: 400px;
+    object-fit: contain;
 }
 
 .tiptap img[alt="Uploading..."] {
-    @apply comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-lg comm:p-4;
+    @apply comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-6;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/* Ensure the upload area is properly centered */
+.tiptap .image-upload-placeholder {
+    @apply comm:flex comm:items-center comm:justify-center comm:min-h-[200px] comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-6;
 }
