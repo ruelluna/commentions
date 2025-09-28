@@ -54,15 +54,15 @@
 
 .tiptap img[alt="Uploading..."] {
     @apply comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-6;
-    min-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 150px;
+    display: block;
     text-align: center;
     position: relative;
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
 /* Ensure the upload area is properly centered */
@@ -73,13 +73,15 @@
 /* Modal-specific styling for better SVG display */
 [data-modal] .tiptap img[alt="Uploading..."] {
     @apply comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-4;
-    min-height: 150px;
-    max-height: 300px;
-    width: 100%;
-    max-width: 100%;
+    min-height: 120px;
+    max-height: 200px;
+    width: 100% !important;
+    max-width: 100% !important;
     object-fit: contain;
     display: block;
-    margin: 10px auto;
+    margin: 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 /* Ensure SVG is not cut off in modals */
