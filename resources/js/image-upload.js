@@ -102,7 +102,7 @@ export const ImageUpload = Node.create({
         const { tr } = state
 
         // Insert a simple text placeholder
-        const placeholder = this.editor.schema.nodes.paragraph.create({}, 
+        const placeholder = this.editor.schema.nodes.paragraph.create({},
             this.editor.schema.text('Uploading image...')
         )
 
