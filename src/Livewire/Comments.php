@@ -24,7 +24,15 @@ class Comments extends Component
 
     public string $commentBody = '';
 
+    public $attachments = [];
 
+    #[On('files:updated')]
+    public function updateAttachments($files)
+    {
+        $this->attachments = $files;
+    }
+
+    #[Renderless]
     public function save()
     {
         $this->validate();
@@ -32,11 +40,13 @@ class Comments extends Component
         SaveComment::run(
             $this->record,
             Config::resolveAuthenticatedUser(),
-            $this->commentBody
+            $this->commentBody,
+            $this->attachments
         );
 
         $this->clear();
         $this->dispatch('comment:saved');
+        $this->dispatch('$refresh');
     }
 
     public function render()
@@ -54,8 +64,16 @@ class Comments extends Component
     public function clear(): void
     {
         $this->commentBody = '';
+        $this->attachments = [];
 
         $this->dispatch('comments:content:cleared');
+        $this->dispatch('files:cleared');
+    }
+
+    public function removeAttachment($index): void
+    {
+        unset($this->attachments[$index]);
+        $this->attachments = array_values($this->attachments);
     }
 
     protected function rules(): array

@@ -101,11 +101,6 @@
                         <x-commentions::file-attachment :attachment="$attachment" />
                     @endforeach
                 </div>
-            @elseif ($comment->attachments)
-                {{-- Debug: Show if attachments relationship exists but is empty --}}
-                <div class="comm:mt-3 comm:text-xs comm:text-gray-500">
-                    Debug: Attachments relationship loaded but empty ({{ $comment->attachments->count() }} items)
-                </div>
             @endif
 
             @if ($comment->isComment())

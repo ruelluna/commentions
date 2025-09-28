@@ -36,7 +36,6 @@ const renderSuggestionsComponent = (items) => {
                 .filter(item => item.name.toLowerCase().startsWith(query.toLowerCase()))
                 .slice(0, 5);
 
-            console.log('filteredItems', items, filteredItems, query);
 
             Alpine.store('filamentCommentsMentionsFiltered').items = filteredItems;
             Alpine.store('filamentCommentsMentionsFiltered').selectedIndex = 0;

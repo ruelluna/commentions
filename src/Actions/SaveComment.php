@@ -5,6 +5,9 @@ namespace Kirschbaum\Commentions\Actions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Kirschbaum\Commentions\Comment;
+use Kirschbaum\Commentions\CommentAttachment;
 use Kirschbaum\Commentions\Config;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Kirschbaum\Commentions\Events\CommentWasCreatedEvent;
@@ -16,7 +19,7 @@ class SaveComment
     /**
      * @throws AuthorizationException
      */
-    public function __invoke(Model $commentable, Commenter $author, string $body): Comment
+    public function __invoke(Model $commentable, Commenter $author, string $body, array $attachments = []): Comment
     {
         if ($author->cannot('create', Config::getCommentModel())) {
             throw new AuthorizationException('Cannot create comment');
@@ -28,9 +31,15 @@ class SaveComment
             'author_type' => $author->getMorphClass(),
         ]);
 
+        // Handle file attachments
+        if (!empty($attachments)) {
+            $this->handleAttachments($comment, $attachments);
+        }
+
         $this->dispatchEvents($comment);
 
-        return $comment;
+        // Reload the comment with attachments to ensure they're available
+        return $comment->load('attachments');
     }
 
 
@@ -94,4 +103,33 @@ class SaveComment
         return (new static())(...$args);
     }
 
+    protected function handleAttachments(Comment $comment, array $attachments): void
+    {
+        $disk = config('commentions.uploads.disk', 'local');
+        $basePath = config('commentions.uploads.path', 'commentions/attachments');
+
+        foreach ($attachments as $file) {
+            // Generate unique filename
+            $filename = uniqid() . '_' . $file['name'];
+            $filePath = $basePath . '/' . $filename;
+
+            // Decode base64 content and store the file
+            $decodedContent = base64_decode($file['content']);
+            Storage::disk($disk)->put($filePath, $decodedContent);
+
+            // Create attachment record
+            CommentAttachment::create([
+                'comment_id' => $comment->id,
+                'filename' => $filename,
+                'original_name' => $file['name'],
+                'file_path' => $filePath,
+                'file_size' => $file['size'],
+                'mime_type' => $file['type'],
+                'disk' => $disk,
+                'metadata' => [
+                    'uploaded_at' => now()->toISOString(),
+                ],
+            ]);
+        }
+    }
 }

@@ -41,6 +41,7 @@ class CommentionsServiceProvider extends PackageServiceProvider
                 'create_commentions_tables',
                 'create_commentions_reactions_table',
                 'create_commentions_subscriptions_table',
+                'create_commentions_attachments_table',
             ]);
     }
 
@@ -67,6 +68,7 @@ class CommentionsServiceProvider extends PackageServiceProvider
         );
 
         Gate::policy(CommentModel::class, config('commentions.comment.policy'));
+        Gate::policy(CommentAttachment::class, config('commentions.attachment.policy'));
 
         // Allow publishing of translation files with a custom tag
         $this->publishes([
