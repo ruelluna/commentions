@@ -52,37 +52,14 @@
     object-fit: contain;
 }
 
-.tiptap img[alt="Uploading..."] {
-    @apply comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-6;
-    min-height: 150px;
-    display: block;
-    text-align: center;
-    position: relative;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-    margin: 0 auto;
-    overflow: hidden;
-}
+/* Upload placeholder styling removed - using text placeholder instead */
 
 /* Ensure the upload area is properly centered */
 .tiptap .image-upload-placeholder {
     @apply comm:flex comm:items-center comm:justify-center comm:min-h-[200px] comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-6;
 }
 
-/* Modal-specific styling for better SVG display */
-[data-modal] .tiptap img[alt="Uploading..."] {
-    @apply comm:border-2 comm:border-dashed comm:border-gray-300 comm:bg-gray-50 comm:rounded-xl comm:p-4;
-    min-height: 120px;
-    max-height: 200px;
-    width: 100% !important;
-    max-width: 100% !important;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-    overflow: hidden;
-    box-sizing: border-box;
-}
+/* Modal-specific styling removed - using text placeholder instead */
 
 /* Ensure SVG is not cut off in modals */
 [data-modal] .tiptap {

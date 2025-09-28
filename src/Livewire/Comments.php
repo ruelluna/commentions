@@ -46,7 +46,6 @@ class Comments extends Component
 
         $this->clear();
         $this->dispatch('comment:saved');
-        $this->dispatch('$refresh');
     }
 
     public function render()

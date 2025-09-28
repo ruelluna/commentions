@@ -101,12 +101,10 @@ export const ImageUpload = Node.create({
         const { state, dispatch } = view
         const { tr } = state
 
-        // Insert a placeholder image
-        const placeholder = this.editor.schema.nodes.imageUpload.create({
-            src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAiIHZpZXdCb3g9IjAgMCAyMDAgMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y4ZmFmYyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2YxZjVmOSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiIHN0cm9rZT0iI2U1ZTdlYiIgc3Ryb2tlLXdpZHRoPSIyIiByeD0iOCIvPjxjaXJjbGUgY3g9IjUwJSIgY3k9IjQwJSIgcj0iMTUiIGZpbGw9IiMzNzQxNTEiIG9wYWNpdHk9IjAuMSIvPjxwYXRoIGQ9Im00MCA0MCBsMTAgMTAgbTAtMTAgbC0xMCAxMCIgc3Ryb2tlPSIjMzc0MTUxIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjUwJSIgY3k9IjQwJSIgcj0iNSIgZmlsbD0iIzM3NDE1MSIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iNTAlIiB5PSI3MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjUwMCI+VXBsb2FkaW5nLi4uPC90ZXh0Pjwvc3ZnPg==',
-            alt: 'Uploading...',
-            style: 'display: block; margin: 0 auto; width: 100%; max-width: 100%; height: auto; object-fit: contain; border-radius: 8px;',
-        })
+        // Insert a simple text placeholder
+        const placeholder = this.editor.schema.nodes.paragraph.create({}, 
+            this.editor.schema.text('Uploading image...')
+        )
 
         const pos = tr.selection.from
         tr.insert(pos, placeholder)
@@ -119,12 +117,12 @@ export const ImageUpload = Node.create({
 
             // Find and replace the placeholder
             state.doc.descendants((node, pos) => {
-                if (node.type.name === 'imageUpload' && node.attrs.src.includes('data:image/svg+xml')) {
-                    tr.setNodeMarkup(pos, null, {
-                        ...node.attrs,
+                if (node.type.name === 'paragraph' && node.textContent.includes('Uploading image...')) {
+                    const imageNode = this.editor.schema.nodes.image.create({
                         src: url,
                         alt: file.name,
                     })
+                    tr.replaceWith(pos, pos + node.nodeSize, imageNode)
                 }
             })
 
@@ -136,7 +134,7 @@ export const ImageUpload = Node.create({
             const { tr } = state
 
             state.doc.descendants((node, pos) => {
-                if (node.type.name === 'imageUpload' && node.attrs.src.includes('data:image/svg+xml')) {
+                if (node.type.name === 'paragraph' && node.textContent.includes('Uploading image...')) {
                     tr.delete(pos, pos + node.nodeSize)
                 }
             })
