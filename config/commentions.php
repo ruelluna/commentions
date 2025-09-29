@@ -94,6 +94,7 @@ return [
         'allowed_types' => explode(',', env('COMMENTIONS_UPLOADS_ALLOWED_TYPES', 'jpg,jpeg,png,gif,pdf,doc,docx,txt,zip')),
         'disk' => env('COMMENTIONS_UPLOADS_DISK', 'public'),
         'path' => env('COMMENTIONS_UPLOADS_PATH', 'commentions/attachments'),
+        'visibility' => env('COMMENTIONS_UPLOADS_VISIBILITY', 'public'),
     ],
 
     /*

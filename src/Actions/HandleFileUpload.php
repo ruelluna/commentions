@@ -3,6 +3,7 @@
 namespace Kirschbaum\Commentions\Actions;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Kirschbaum\Commentions\CommentAttachment;
 
@@ -14,6 +15,12 @@ class HandleFileUpload
         // The file path is already set by Filament's FileUpload component
         $filePath = $file->getPathname();
         $filename = basename($filePath);
+
+        // If the file was stored via Filament, we need to ensure it has the correct visibility
+        $visibility = config('commentions.uploads.visibility', 'public');
+        if (Storage::disk($disk)->exists($filePath)) {
+            Storage::disk($disk)->setVisibility($filePath, $visibility);
+        }
 
         return CommentAttachment::create([
             'filename' => $filename,

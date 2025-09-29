@@ -4,7 +4,6 @@ namespace Kirschbaum\Commentions\Actions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Kirschbaum\Commentions\Comment;
 use Kirschbaum\Commentions\CommentAttachment;
@@ -32,7 +31,7 @@ class SaveComment
         ]);
 
         // Handle file attachments
-        if (!empty($attachments)) {
+        if (! empty($attachments)) {
             $this->handleAttachments($comment, $attachments);
         }
 
@@ -41,7 +40,6 @@ class SaveComment
         // Reload the comment with attachments to ensure they're available
         return $comment->load('attachments');
     }
-
 
     protected function dispatchEvents(Comment $comment): void
     {
@@ -98,24 +96,20 @@ class SaveComment
         }
     }
 
-    public static function run(...$args)
-    {
-        return (new static())(...$args);
-    }
-
     protected function handleAttachments(Comment $comment, array $attachments): void
     {
         $disk = config('commentions.uploads.disk', 'local');
         $basePath = config('commentions.uploads.path', 'commentions/attachments');
+        $visibility = config('commentions.uploads.visibility', 'public');
 
         foreach ($attachments as $file) {
             // Generate unique filename
             $filename = uniqid() . '_' . $file['name'];
             $filePath = $basePath . '/' . $filename;
 
-            // Decode base64 content and store the file
+            // Decode base64 content and store the file with specified visibility
             $decodedContent = base64_decode($file['content']);
-            Storage::disk($disk)->put($filePath, $decodedContent);
+            Storage::disk($disk)->put($filePath, $decodedContent, $visibility);
 
             // Create attachment record
             CommentAttachment::create([
@@ -131,5 +125,10 @@ class SaveComment
                 ],
             ]);
         }
+    }
+
+    public static function run(...$args)
+    {
+        return (new static())(...$args);
     }
 }
