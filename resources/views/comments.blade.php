@@ -39,7 +39,7 @@
                                     </p>
                                     <p class="comm:text-xs comm:text-gray-500 comm:dark:text-gray-500">PNG, JPG, PDF,
                                         DOC,
-                                        TXT, ZIP up to 10MB</p>
+                                        TXT, ZIP up to 2MB</p>
                                 </div>
                             </div>
 

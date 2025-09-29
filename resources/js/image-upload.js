@@ -144,6 +144,12 @@ export const ImageUpload = Node.create({
     },
 
     async uploadFile(file) {
+        // Check file size (2MB max for S3 compatibility)
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        if (file.size > maxSize) {
+            throw new Error(`File too large. Maximum size: 2MB`);
+        }
+
         const formData = new FormData()
         formData.append('image', file)
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'))
@@ -154,7 +160,8 @@ export const ImageUpload = Node.create({
         })
 
         if (!response.ok) {
-            throw new Error('Upload failed')
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Upload failed');
         }
 
         const data = await response.json()

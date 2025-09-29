@@ -79,10 +79,11 @@ return [
     */
     'uploads' => [
         'enabled' => env('COMMENTIONS_UPLOADS_ENABLED', true),
-        'max_file_size' => env('COMMENTIONS_UPLOADS_MAX_SIZE', 10240), // KB
+        'max_size' => env('COMMENTIONS_UPLOADS_MAX_SIZE', 2 * 1024 * 1024), // 2MB default for S3 compatibility
+        'max_file_size' => env('COMMENTIONS_UPLOADS_MAX_FILE_SIZE', 2048), // KB (2MB)
         'max_files' => env('COMMENTIONS_UPLOADS_MAX_FILES', 5),
         'allowed_types' => explode(',', env('COMMENTIONS_UPLOADS_ALLOWED_TYPES', 'jpg,jpeg,png,gif,pdf,doc,docx,txt,zip')),
-        'disk' => env('COMMENTIONS_UPLOADS_DISK', 'local'),
+        'disk' => env('COMMENTIONS_UPLOADS_DISK', 'public'),
         'path' => env('COMMENTIONS_UPLOADS_PATH', 'commentions/attachments'),
     ],
 

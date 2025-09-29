@@ -95,18 +95,26 @@ class CommentionsServiceProvider extends PackageServiceProvider
                 return response()->json(['error' => 'Invalid file type'], 400);
             }
 
-            // Validate file size (5MB max)
-            if ($file->getSize() > 5 * 1024 * 1024) {
-                return response()->json(['error' => 'File too large'], 400);
+            // Get max size from config (default 2MB for S3 compatibility)
+            $maxSize = config('commentions.uploads.max_size', 2 * 1024 * 1024); // 2MB default
+            
+            // Validate file size
+            if ($file->getSize() > $maxSize) {
+                return response()->json(['error' => 'File too large. Maximum size: ' . round($maxSize / 1024 / 1024, 1) . 'MB'], 400);
             }
 
-            // Store the file
-            $path = $file->store('commentions/images', config('commentions.uploads.disk', 'public'));
+            try {
+                // Store the file
+                $path = $file->store('commentions/images', config('commentions.uploads.disk', 'public'));
 
-            // Get the URL
-            $url = Storage::disk(config('commentions.uploads.disk', 'public'))->url($path);
+                // Get the URL
+                $url = Storage::disk(config('commentions.uploads.disk', 'public'))->url($path);
 
-            return response()->json(['url' => $url]);
+                return response()->json(['url' => $url]);
+            } catch (\Exception $e) {
+                \Log::error('File upload failed: ' . $e->getMessage());
+                return response()->json(['error' => 'Upload failed: ' . $e->getMessage()], 500);
+            }
         })->name('commentions.upload-image');
     }
 }
