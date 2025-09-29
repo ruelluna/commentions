@@ -39,7 +39,9 @@
                                     </p>
                                     <p class="comm:text-xs comm:text-gray-500 comm:dark:text-gray-500">PNG, JPG, PDF,
                                         DOC,
-                                        TXT, ZIP up to {{ round(config('commentions.uploads.max_size', 2 * 1024 * 1024) / 1024 / 1024, 1) }}MB</p>
+                                        TXT, ZIP up to
+                                        {{ round(config('commentions.uploads.max_size', 2 * 1024 * 1024) / 1024 / 1024, 1) }}MB
+                                    </p>
                                 </div>
                             </div>
 
@@ -120,12 +122,15 @@
                 },
                 async handleFiles(fileList) {
                     const files = Array.from(fileList);
-                    const maxSize = {{ config('commentions.uploads.max_size', 2 * 1024 * 1024) }};
+                    const maxSize =
+                        {{ config('commentions.uploads.max_size', 2 * 1024 * 1024) }};
 
                     // Check file sizes before processing
                     for (const file of files) {
                         if (file.size > maxSize) {
-                            alert(`File "${file.name}" is too large. Maximum size: ${Math.round(maxSize / 1024 / 1024 * 10) / 10}MB`);
+                            alert(
+                                `File "${file.name}" is too large. Maximum size: ${Math.round(maxSize / 1024 / 1024 * 10) / 10}MB`
+                                );
                             return;
                         }
                     }
