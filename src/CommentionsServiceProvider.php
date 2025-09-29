@@ -95,9 +95,9 @@ class CommentionsServiceProvider extends PackageServiceProvider
                 return response()->json(['error' => 'Invalid file type'], 400);
             }
 
-            // Get max size from config (default 2MB for S3 compatibility)
-            $maxSize = config('commentions.uploads.max_size', 2 * 1024 * 1024); // 2MB default
-            
+            // Get max size from config
+            $maxSize = config('commentions.uploads.max_size', 2 * 1024 * 1024);
+
             // Validate file size
             if ($file->getSize() > $maxSize) {
                 return response()->json(['error' => 'File too large. Maximum size: ' . round($maxSize / 1024 / 1024, 1) . 'MB'], 400);
@@ -113,6 +113,7 @@ class CommentionsServiceProvider extends PackageServiceProvider
                 return response()->json(['url' => $url]);
             } catch (\Exception $e) {
                 \Log::error('File upload failed: ' . $e->getMessage());
+
                 return response()->json(['error' => 'Upload failed: ' . $e->getMessage()], 500);
             }
         })->name('commentions.upload-image');

@@ -79,7 +79,15 @@ return [
     */
     'uploads' => [
         'enabled' => env('COMMENTIONS_UPLOADS_ENABLED', true),
-        'max_size' => env('COMMENTIONS_UPLOADS_MAX_SIZE', 2 * 1024 * 1024), // 2MB default for S3 compatibility
+        'max_size' => function() {
+            $maxSize = env('COMMENTIONS_UPLOADS_MAX_SIZE', 2048); // Default 2MB in KB
+            // If the value is less than 1000, assume it's already in MB and convert to bytes
+            if ($maxSize < 1000) {
+                return $maxSize * 1024 * 1024; // Convert MB to bytes
+            }
+            // If the value is 1000 or more, assume it's in KB and convert to bytes
+            return $maxSize * 1024; // Convert KB to bytes
+        }(),
         'max_file_size' => env('COMMENTIONS_UPLOADS_MAX_FILE_SIZE', 2048), // KB (2MB)
         'max_files' => env('COMMENTIONS_UPLOADS_MAX_FILES', 5),
         'allowed_types' => explode(',', env('COMMENTIONS_UPLOADS_ALLOWED_TYPES', 'jpg,jpeg,png,gif,pdf,doc,docx,txt,zip')),

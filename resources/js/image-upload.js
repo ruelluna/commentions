@@ -144,11 +144,8 @@ export const ImageUpload = Node.create({
     },
 
     async uploadFile(file) {
-        // Check file size (2MB max for S3 compatibility)
-        const maxSize = 2 * 1024 * 1024; // 2MB
-        if (file.size > maxSize) {
-            throw new Error(`File too large. Maximum size: 2MB`);
-        }
+        // Check file size - will be validated on server side
+        // Frontend validation is handled by the upload route
 
         const formData = new FormData()
         formData.append('image', file)
