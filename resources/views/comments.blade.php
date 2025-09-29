@@ -27,7 +27,8 @@
                                     accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt,.zip">
 
                                 <div class="comm:text-center comm:py-4">
-                                    <div class="comm:mx-auto comm:h-10 comm:w-10 comm:text-gray-400 comm:flex comm:items-center comm:justify-center comm:bg-gray-100 comm:rounded-full">
+                                    <div
+                                        class="comm:mx-auto comm:h-10 comm:w-10 comm:text-gray-400 comm:flex comm:items-center comm:justify-center comm:bg-gray-100 comm:rounded-full">
                                         <span class="comm:text-2xl">📁</span>
                                     </div>
                                     <p class="comm:mt-2 comm:text-sm comm:text-gray-600 comm:dark:text-gray-400">
